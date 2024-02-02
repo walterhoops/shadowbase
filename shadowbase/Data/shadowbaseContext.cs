@@ -15,5 +15,7 @@ namespace shadowbase.Data
         }
 
         public DbSet<shadowbase.Models.ClientData> ClientData { get; set; } = default!;
+
+        public DbSet<shadowbase.Models.AuctionData> AuctionData { get; set; } = default!;
     }
 }
