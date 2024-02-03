@@ -1,0 +1,31 @@
+﻿@page
+@model shadowbase.Pages.UserTypeDescriptions.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>UserTypes</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserTypes.TypeID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserTypes.TypeID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserTypes.TypeDescription)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserTypes.TypeDescription)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.UserTypes?.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
