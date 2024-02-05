@@ -1,0 +1,40 @@
+﻿@page
+@model shadowbase.Pages.AuctionBids.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>AuctionBidData</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AuctionBidData.UserID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AuctionBidData.UserID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AuctionBidData.BidAmount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AuctionBidData.BidAmount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AuctionBidData.BidDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AuctionBidData.BidDate)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="AuctionBidData.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

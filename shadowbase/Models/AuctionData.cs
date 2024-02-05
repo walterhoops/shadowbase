@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace shadowbase.Models;
 
@@ -14,7 +15,9 @@ public class AuctionData
 	[DataType(DataType.Date)]
 	public DateTime ExpiryDate { get; set; }
 	[DataType(DataType.Currency)]
+	[Column(TypeName = "decimal(18, 2)")]
 	public decimal HomeBudget { get; set; }
 	public int BidID { get; set; }
+	[Column(TypeName = "decimal(2, 2)")]
 	public decimal BidLimit { get; set; }
 }

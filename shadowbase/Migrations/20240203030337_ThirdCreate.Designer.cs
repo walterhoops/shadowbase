@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using shadowbase.Data;
 
@@ -11,9 +12,11 @@ using shadowbase.Data;
 namespace shadowbase.Migrations
 {
     [DbContext(typeof(shadowbaseContext))]
-    partial class shadowbaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240203030337_ThirdCreate")]
+    partial class ThirdCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,7 +34,7 @@ namespace shadowbase.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("BidAmount")
-                        .HasColumnType("decimal(2, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("BidDate")
                         .HasColumnType("datetime2");
@@ -56,7 +59,7 @@ namespace shadowbase.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("BidLimit")
-                        .HasColumnType("decimal(2, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ClientID")
                         .HasColumnType("int");
@@ -68,7 +71,7 @@ namespace shadowbase.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("HomeBudget")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("StatusID")
                         .HasColumnType("nvarchar(max)");
