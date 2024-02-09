@@ -9,3 +9,7 @@ How ShadowBase Works:
 Enter client detailsa and preferences, then explore the dynamic auction platform where professionals
 bid on cross-industry services, including Real Estate, Mortgage Specialists, and Home Insurance, fostering 
 collaboration. Witness seamless interactions optimizing outcomes across these interconnected sectors.
+
+ShadowBase Misson:
+To accelerate connections among real estate, insurance, and mortgage specialists, 
+propelling the creation of new business opportunities.
