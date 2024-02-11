@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using shadowbase.Data;
+using shadowbase.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,13 @@ builder.Services.AddDbContext<shadowbaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("shadowbaseContext") ?? throw new InvalidOperationException("Connection string 'shadowbaseContext' not found.")));
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

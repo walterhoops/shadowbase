@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using shadowbase.Data;
 using shadowbase.Models;
@@ -20,13 +21,38 @@ namespace shadowbase.Pages.Auctions
         }
 
         public IList<AuctionData> AuctionData { get;set; } = default!;
+        [BindProperty(SupportsGet = true)]
+        public string? SearchString { get; set; }
+
+        public SelectList? Status { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string? AuctionStatus { get; set; }
+
 
         public async Task OnGetAsync()
         {
-            if (_context.AuctionData != null)
+            // Use LINQ to get list of genres.
+            IQueryable<string> statusQuery = from m in _context.AuctionData
+                                            orderby m.StatusID
+                                            select m.StatusID;
+
+            var auctions = from m in _context.AuctionData
+                         select m;
+
+            if (!string.IsNullOrEmpty(SearchString))
             {
-                AuctionData = await _context.AuctionData.ToListAsync();
+                auctions = auctions.Where(s => s.StatusID.Contains(SearchString));
             }
+
+            if (!string.IsNullOrEmpty(AuctionStatus))
+            {
+                auctions = auctions.Where(x => x.StatusID == AuctionStatus);
+            }
+            Status = new SelectList(await statusQuery.Distinct().ToListAsync());
+            AuctionData = await auctions.ToListAsync();
         }
+
+
     }
 }
