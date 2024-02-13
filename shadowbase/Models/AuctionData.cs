@@ -18,9 +18,10 @@ public class AuctionData
 	public DateTime ExpiryDate { get; set; }
     [Display(Name = "Home Budget")]
     [DataType(DataType.Currency)]
-    [Column(TypeName = "decimal(18, 10)")]
+    [Column(TypeName = "decimal(18, 2)")]
     public decimal HomeBudget { get; set; }
 	public int BidID { get; set; }
     [Display(Name = "Bid Limit")]
+    [Column(TypeName = "decimal(2, 2)")]
     public decimal BidLimit { get; set; }
 }
