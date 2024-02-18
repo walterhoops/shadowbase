@@ -4,11 +4,20 @@ namespace shadowbase.Models;
 public class LicenseData
 {
     public int Id { get; set; }
-    [Required]
-    public required int UserID { get; set; }
-    public string? reLicense { get; set; }
-    public string? mbLicense { get; set; }
-    public string? hiLicense { get; set; }
 
-    
+    [Required(ErrorMessage = "User ID is required")]
+    public int UserID { get; set; }
+
+    [Display(Name = "Real Estate License")]
+    [RegularExpression(@"^[A-Za-z0-9]{6,}$", ErrorMessage = "License must be alphanumeric and at least 6 characters long")]
+    public string reLicense { get; set; }
+
+    [Display(Name = "Mortgage Broker License")]
+    [RegularExpression(@"^[A-Za-z0-9]{6,}$", ErrorMessage = "License must be alphanumeric and at least 6 characters long")]
+    public string mbLicense { get; set; }
+
+    [Display(Name = "Home Inspector License")]
+    [RegularExpression(@"^[A-Za-z0-9]{6,}$", ErrorMessage = "License must be alphanumeric and at least 6 characters long")]
+    public string hiLicense { get; set; }
 }
+
