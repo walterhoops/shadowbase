@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using shadowbase.Data;
 
@@ -11,9 +12,11 @@ using shadowbase.Data;
 namespace shadowbase.Migrations
 {
     [DbContext(typeof(shadowbaseContext))]
-    partial class shadowbaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240217034343_Lab 4")]
+    partial class Lab4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
