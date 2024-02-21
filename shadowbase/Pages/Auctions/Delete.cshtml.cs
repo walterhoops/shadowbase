@@ -12,52 +12,71 @@ namespace shadowbase.Pages.Auctions
 {
     public class DeleteModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbaseContext _context;
+        private readonly ILogger<DeleteModel> _logger;
 
-        public DeleteModel(shadowbase.Data.shadowbaseContext context)
+        public DeleteModel(shadowbaseContext context,
+                           ILogger<DeleteModel> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [BindProperty]
-      public AuctionData AuctionData { get; set; } = default!;
+        public AuctionData AuctionData { get; set; }
+        public string ErrorMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
         {
-            if (id == null || _context.AuctionData == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var auctiondata = await _context.AuctionData.FirstOrDefaultAsync(m => m.Id == id);
+            AuctionData = await _context.AuctionData
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (auctiondata == null)
+            if (AuctionData == null)
             {
                 return NotFound();
             }
-            else 
+
+            if (saveChangesError.GetValueOrDefault())
             {
-                AuctionData = auctiondata;
+                ErrorMessage = String.Format("Delete {ID} failed. Try again", id);
             }
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.AuctionData == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            var auctiondata = await _context.AuctionData.FindAsync(id);
 
-            if (auctiondata != null)
+            var AuctionData = await _context.AuctionData.FindAsync(id);
+
+            if (AuctionData == null)
             {
-                AuctionData = auctiondata;
-                _context.AuctionData.Remove(AuctionData);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
 
-            return RedirectToPage("./Index");
+            try
+            {
+                _context.AuctionData.Remove(AuctionData);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, ErrorMessage);
+
+                return RedirectToAction("./Delete",
+                                     new { id, saveChangesError = true });
+            }
         }
     }
 }

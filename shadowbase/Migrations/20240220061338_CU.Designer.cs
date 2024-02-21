@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using shadowbase.Data;
 
@@ -11,9 +12,11 @@ using shadowbase.Data;
 namespace shadowbase.Migrations
 {
     [DbContext(typeof(shadowbaseContext))]
-    partial class shadowbaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240220061338_CU")]
+    partial class CU
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,7 +134,7 @@ namespace shadowbase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuctionBidData", (string)null);
+                    b.ToTable("AuctionBidData");
                 });
 
             modelBuilder.Entity("shadowbase.Models.AuctionData", b =>
@@ -172,7 +175,7 @@ namespace shadowbase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuctionData", (string)null);
+                    b.ToTable("AuctionData");
                 });
 
             modelBuilder.Entity("shadowbase.Models.ClientData", b =>
@@ -201,7 +204,7 @@ namespace shadowbase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ClientData", (string)null);
+                    b.ToTable("ClientData");
                 });
 
             modelBuilder.Entity("shadowbase.Models.LicenseData", b =>
@@ -226,7 +229,7 @@ namespace shadowbase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LicenseData", (string)null);
+                    b.ToTable("LicenseData");
                 });
 
             modelBuilder.Entity("shadowbase.Models.StatusIDs", b =>
@@ -240,12 +243,13 @@ namespace shadowbase.Migrations
                     b.Property<string>("StatusDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StatusID")
-                        .HasColumnType("int");
+                    b.Property<string>("StatusID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("StatusIDs", (string)null);
+                    b.ToTable("StatusIDs");
                 });
 
             modelBuilder.Entity("shadowbase.Models.UserData", b =>
@@ -317,7 +321,7 @@ namespace shadowbase.Migrations
 
                     b.HasIndex("UserTypesId");
 
-                    b.ToTable("UserData", (string)null);
+                    b.ToTable("UserData");
                 });
 
             modelBuilder.Entity("shadowbase.Models.UserTypes", b =>
@@ -336,7 +340,7 @@ namespace shadowbase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserTypes", (string)null);
+                    b.ToTable("UserTypes");
                 });
 
             modelBuilder.Entity("AuctionBidDataAuctionData", b =>

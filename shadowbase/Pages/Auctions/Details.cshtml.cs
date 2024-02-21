@@ -28,15 +28,18 @@ namespace shadowbase.Pages.Auctions
                 return NotFound();
             }
 
-            var auctiondata = await _context.AuctionData.FirstOrDefaultAsync(m => m.Id == id);
-            if (auctiondata == null)
+            AuctionData = await _context.AuctionData
+        .Include(a => a.UserData)
+        .ThenInclude(u => u.AuctionBidData)
+        .Include(a => a.StatusIDs)
+        .Include(a => a.ClientData)
+        .AsNoTracking()
+        .FirstOrDefaultAsync(m => m.Id == id);
+            if (AuctionData == null)
             {
                 return NotFound();
             }
-            else 
-            {
-                AuctionData = auctiondata;
-            }
+            
             return Page();
         }
     }

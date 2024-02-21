@@ -6,12 +6,15 @@ namespace shadowbase.Models;
 public class AuctionData
 {
 	public int Id { get; set; }
-	public required int UserID { get; set; }
-	public required int ClientID { get; set; }
+    [Required]
+    public int UserID { get; set; }
+    [Required]
+    public int ClientID { get; set; }
 	public string? StatusID { get; set; }
-	public required string Type { get; set; }
-	[DataType(DataType.Date)]
-	public DateTime CreationDate { get; set; }
+    [Required]
+    public string Type { get; set; }
+    [DataType(DataType.Date)]
+    public DateTime CreationDate { get; set; }
 	[DataType(DataType.Date)]
 	public DateTime ExpiryDate { get; set; }
 	[DataType(DataType.Currency)]
@@ -20,4 +23,9 @@ public class AuctionData
 	public int BidID { get; set; }
 	[Column(TypeName = "decimal(2, 2)")]
 	public decimal BidLimit { get; set; }
+
+    public ICollection<UserData> UserData { get; set; }
+    public ICollection<AuctionBidData> AuctionBidData { get; set; }
+    public ICollection<StatusIDs> StatusIDs { get; set; }
+    public ICollection<ClientData> ClientData { get; set; }
 }

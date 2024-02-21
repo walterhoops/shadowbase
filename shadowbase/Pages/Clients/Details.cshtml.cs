@@ -28,15 +28,16 @@ namespace shadowbase.Pages.Clients
                 return NotFound();
             }
 
-            var clientdata = await _context.ClientData.FirstOrDefaultAsync(m => m.Id == id);
-            if (clientdata == null)
+            ClientData = await _context.ClientData
+        .Include(c => c.AuctionData)
+        
+        .AsNoTracking()
+        .FirstOrDefaultAsync(m => m.Id == id);
+            if (ClientData == null)
             {
                 return NotFound();
             }
-            else 
-            {
-                ClientData = clientdata;
-            }
+            
             return Page();
         }
     }

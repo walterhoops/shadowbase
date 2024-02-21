@@ -28,15 +28,16 @@ namespace shadowbase.Pages.AuctionStatuses
                 return NotFound();
             }
 
-            var statusids = await _context.StatusIDs.FirstOrDefaultAsync(m => m.Id == id);
-            if (statusids == null)
+            StatusIDs = await _context.StatusIDs
+        .Include(s => s.AuctionData)
+        
+        .AsNoTracking()
+        .FirstOrDefaultAsync(m => m.Id == id);
+            if (StatusIDs == null)
             {
                 return NotFound();
             }
-            else 
-            {
-                StatusIDs = statusids;
-            }
+            
             return Page();
         }
     }

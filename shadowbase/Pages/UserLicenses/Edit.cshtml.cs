@@ -25,48 +25,39 @@ namespace shadowbase.Pages.UserLicenses
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.LicenseData == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var licensedata =  await _context.LicenseData.FirstOrDefaultAsync(m => m.Id == id);
-            if (licensedata == null)
+            LicenseData = await _context.LicenseData.FindAsync(id);
+
+            if (LicenseData == null)
             {
                 return NotFound();
             }
-            LicenseData = licensedata;
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
+            var LicenseDataToUpdate = await _context.LicenseData.FindAsync(id);
+
+            if (LicenseDataToUpdate == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(LicenseData).State = EntityState.Modified;
-
-            try
+            if (await TryUpdateModelAsync<LicenseData>(
+                LicenseDataToUpdate,
+                "student",
+                s => s.UserID, s => s.reLicense, s => s.mbLicense, s => s.hiLicense))
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!LicenseDataExists(LicenseData.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool LicenseDataExists(int id)

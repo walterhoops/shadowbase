@@ -4,24 +4,41 @@ public class UserData
 {
     public int Id { get; set; }
     [Required]
-    public required string TypeID { get; set; }
-    public required string Username { get; set; }
+    public string TypeID { get; set; }
+    [Required]
+    public string Username { get; set; }
     [DataType(DataType.Password)]
-    public required string Password { get; set; }
-    public required string FirstName { get; set; }
-    public required string LastName { get; set; }
+    [Required]
+    public string Password { get; set; }
+    [Required]
+    public string FirstName { get; set; }
+    [Required]
+    public string LastName { get; set; }
     [DataType(DataType.Date)]
-    public required DateTime DOB { get; set; }
+    [Required]
+    public DateTime DOB { get; set; }
     [DataType(DataType.PhoneNumber)]
     public string? Phone { get; set; }
     [DataType(DataType.EmailAddress)]
-    public required string Email { get; set; }
-    public required string Address { get; set; }
-    public required string City { get; set; }
+    [Required]
+    public string Email { get; set; }
+    [Required]
+    public string Address { get; set; }
+    [Required]
+    public string City { get; set; }
     [DataType(DataType.PostalCode)]
-    public required string PostalCode { get; set; }
-    public required string Country { get; set; }
-    public required string Company { get; set; }
+    [Required]
+    public string PostalCode { get; set; }
+    [Required]
+    public string Country { get; set; }
+    [Required]
+    public string Company { get; set; }
     [DataType(DataType.EmailAddress)]
-    public required string PayPalEmail { get; set; }
+    [Required]
+    public string PayPalEmail { get; set; }
+
+    public UserTypes UserTypes { get; set; }
+    public ICollection<LicenseData> LicenseData { get; set; }
+    public ICollection<AuctionData> AuctionData { get; set; }
+    public ICollection<AuctionBidData> AuctionBidData { get; set; }
 }

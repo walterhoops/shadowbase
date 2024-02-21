@@ -4,7 +4,9 @@ namespace shadowbase.Models;
 public class StatusIDs
 {
     public int Id { get; set; }
-    public required string StatusID { get; set; }
+    [Required]
+    public int StatusID { get; set; }
     [DataType(DataType.Text)]
     public string? StatusDescription { get; set; }
+    public ICollection<AuctionData> AuctionData { get; set; }
 }

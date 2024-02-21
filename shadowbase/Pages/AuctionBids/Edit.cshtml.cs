@@ -25,48 +25,39 @@ namespace shadowbase.Pages.AuctionBids
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.AuctionBidData == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var auctionbiddata =  await _context.AuctionBidData.FirstOrDefaultAsync(m => m.Id == id);
-            if (auctionbiddata == null)
+            AuctionBidData = await _context.AuctionBidData.FindAsync(id);
+
+            if (AuctionBidData == null)
             {
                 return NotFound();
             }
-            AuctionBidData = auctionbiddata;
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
+            var auctionBidToUpdate = await _context.AuctionBidData.FindAsync(id);
+
+            if (auctionBidToUpdate == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(AuctionBidData).State = EntityState.Modified;
-
-            try
+            if (await TryUpdateModelAsync<AuctionBidData>(
+                auctionBidToUpdate,
+                "auctionBid",
+                s => s.UserID, s => s.BidAmount, s => s.BidDate))
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AuctionBidDataExists(AuctionBidData.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool AuctionBidDataExists(int id)

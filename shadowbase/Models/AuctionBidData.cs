@@ -5,9 +5,19 @@ namespace shadowbase.Models;
 public class AuctionBidData
 {
     public int Id { get; set; }
-    public required int UserID { get; set; }
+    [Required]
+    public int UserID { get; set; } 
     [Column(TypeName = "decimal(2, 2)")]
-    public required decimal BidAmount { get; set; }
+    [Required]
+    public decimal BidAmount { get; set; }
     [DataType(DataType.Date)]
-    public required DateTime BidDate { get; set; }
+    [Required]
+    public DateTime BidDate { get; set; }
+    public ICollection<UserData> UserData { get; set; }
+    public ICollection<AuctionData> AuctionData { get; set; }
+
+ 
+
 }
+
+

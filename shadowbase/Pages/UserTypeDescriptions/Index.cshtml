@@ -2,10 +2,10 @@
 @model shadowbase.Pages.UserTypeDescriptions.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "UserTypes";
 }
 
-<h1>Index</h1>
+<h2>UserTypes</h2>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -13,12 +13,18 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserTypes[0].TypeID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserTypes[0].TypeDescription)
-            </th>
+            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+               asp-route-currentFilter="@Model.CurrentFilter">
+                <th>
+                    @Html.DisplayNameFor(model => model.UserTypes[0].TypeID)
+                </th>
+            </a>
+            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+               asp-route-currentFilter="@Model.CurrentFilter">
+                <th>
+                    @Html.DisplayNameFor(model => model.UserTypes[0].TypeDescription)
+                </th>
+            </a>
             <th></th>
         </tr>
     </thead>

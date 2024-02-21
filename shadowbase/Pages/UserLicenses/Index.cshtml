@@ -2,10 +2,10 @@
 @model shadowbase.Pages.UserLicenses.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "LicenseData";
 }
 
-<h1>Index</h1>
+<h2>LicenseData</h2>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -13,9 +13,12 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.LicenseData[0].UserID)
-            </th>
+            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+               asp-route-currentFilter="@Model.CurrentFilter">
+                <th>
+                    @Html.DisplayNameFor(model => model.LicenseData[0].UserID)
+                </th>
+            </a>
             <th>
                 @Html.DisplayNameFor(model => model.LicenseData[0].reLicense)
             </th>

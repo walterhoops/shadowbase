@@ -5,10 +5,15 @@ namespace shadowbase.Models;
 public class ClientData
 {
     public int Id { get; set; }
-    public required string FirstName { get; set; }
-    public required string LastName { get; set; }
+    [Required]
+    public string FirstName { get; set; }
+    [Required]
+    public string LastName { get; set; }
     [DataType(DataType.EmailAddress)]
-    public required string Email { get; set; }
+    [Required]
+    public string Email { get; set; }
     [DataType(DataType.PhoneNumber)]
-    public required string Phone { get; set; }
+    [Required]
+    public string Phone { get; set; }
+    public ICollection<AuctionData> AuctionData { get; set; }
 }

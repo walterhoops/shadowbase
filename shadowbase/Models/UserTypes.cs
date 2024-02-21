@@ -7,4 +7,6 @@ public class UserTypes
     public string? TypeID { get; set; }
     [DataType(DataType.Text)]
     public string? TypeDescription { get; set; }
+
+    public ICollection<UserData> UserData { get; set; }
 }

@@ -26,20 +26,24 @@ namespace shadowbase.Pages.Users
 
         [BindProperty]
         public UserData UserData { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.UserData == null || UserData == null)
+            var emptyUserData = new UserData();
+
+            if (await TryUpdateModelAsync<UserData>(
+                emptyUserData,
+                "user",   // Prefix for form value.
+                s => s.TypeID, s => s.Username, s => s.Password, s => s.FirstName, s => s.LastName, s => s.DOB, s => s.Phone, s => s.Email, s => s.Address, s => s.City, s => s.PostalCode, s => s.Country, s => s.Company, s => s.PayPalEmail))
             {
-                return Page();
+                _context.UserData.Add(emptyUserData);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
 
-            _context.UserData.Add(UserData);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

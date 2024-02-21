@@ -28,15 +28,16 @@ namespace shadowbase.Pages.UserTypeDescriptions
                 return NotFound();
             }
 
-            var usertypes = await _context.UserTypes.FirstOrDefaultAsync(m => m.Id == id);
-            if (usertypes == null)
+            UserTypes = await _context.UserTypes
+        .Include(u => u.UserData)
+        
+        .AsNoTracking()
+        .FirstOrDefaultAsync(m => m.Id == id);
+            if (UserTypes == null)
             {
                 return NotFound();
             }
-            else 
-            {
-                UserTypes = usertypes;
-            }
+            
             return Page();
         }
     }

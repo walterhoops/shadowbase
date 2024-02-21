@@ -25,48 +25,39 @@ namespace shadowbase.Pages.Auctions
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.AuctionData == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var auctiondata =  await _context.AuctionData.FirstOrDefaultAsync(m => m.Id == id);
-            if (auctiondata == null)
+            AuctionData = await _context.AuctionData.FindAsync(id);
+
+            if (AuctionData == null)
             {
                 return NotFound();
             }
-            AuctionData = auctiondata;
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
+            var auctionToUpdate = await _context.AuctionData.FindAsync(id);
+
+            if (auctionToUpdate == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(AuctionData).State = EntityState.Modified;
-
-            try
+            if (await TryUpdateModelAsync<AuctionData>(
+                auctionToUpdate,
+                "auction",
+                s => s.UserID, s => s.ClientID, s => s.StatusID, s => s.Type, s => s.CreationDate, s => s.ExpiryDate, s => s.HomeBudget, s => s.BidID, s => s.BidLimit))
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AuctionDataExists(AuctionData.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool AuctionDataExists(int id)
