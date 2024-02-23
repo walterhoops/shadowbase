@@ -12,38 +12,35 @@ namespace shadowbase.Pages.Users
 {
     public class CreateModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbase.Data.ShadowbaseContext _context;
 
-        public CreateModel(shadowbase.Data.shadowbaseContext context)
+        public CreateModel(shadowbase.Data.ShadowbaseContext context)
         {
             _context = context;
         }
 
         public IActionResult OnGet()
         {
+        ViewData["UserTypeIDFK"] = new SelectList(_context.UserTypes, "UserTypeID", "UserTypeDescription");
             return Page();
         }
 
         [BindProperty]
-        public UserData UserData { get; set; } = default!;
-
+        public User User { get; set; } = default!;
+        
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            var emptyUserData = new UserData();
-
-            if (await TryUpdateModelAsync<UserData>(
-                emptyUserData,
-                "user",   // Prefix for form value.
-                s => s.TypeID, s => s.Username, s => s.Password, s => s.FirstName, s => s.LastName, s => s.DOB, s => s.Phone, s => s.Email, s => s.Address, s => s.City, s => s.PostalCode, s => s.Country, s => s.Company, s => s.PayPalEmail))
+          if (!ModelState.IsValid || _context.Users == null || User == null)
             {
-                _context.UserData.Add(emptyUserData);
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
+                return Page();
             }
 
-            return Page();
+            _context.Users.Add(User);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
         }
     }
 }

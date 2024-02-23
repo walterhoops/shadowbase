@@ -12,38 +12,38 @@ namespace shadowbase.Pages.Auctions
 {
     public class CreateModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbase.Data.ShadowbaseContext _context;
 
-        public CreateModel(shadowbase.Data.shadowbaseContext context)
+        public CreateModel(shadowbase.Data.ShadowbaseContext context)
         {
             _context = context;
         }
 
         public IActionResult OnGet()
         {
+        ViewData["AuctionStatusIDFK"] = new SelectList(_context.AuctionStatuses, "AuctionStatusID", "AuctionStatusDescription");
+        ViewData["AuctionTypeIDFK"] = new SelectList(_context.AuctionTypes, "AuctionTypeID", "AuctionTypeDescription");
+        ViewData["ClientIDFK"] = new SelectList(_context.Clients, "ClientID", "Email");
+        ViewData["UserIDFK"] = new SelectList(_context.Users, "UserID", "Address");
             return Page();
         }
 
         [BindProperty]
-        public AuctionData AuctionData { get; set; } = default!;
-
+        public Auction Auction { get; set; } = default!;
+        
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            var emptyAuctionData = new AuctionData();
-
-            if (await TryUpdateModelAsync<AuctionData>(
-                emptyAuctionData,
-                "Auction",   // Prefix for form value.
-                s => s.UserID, s => s.ClientID, s => s.StatusID, s => s.Type, s => s.CreationDate, s => s.ExpiryDate, s => s.HomeBudget, s => s.BidID, s => s.BidLimit))
+          if (!ModelState.IsValid || _context.Auctions == null || Auction == null)
             {
-                _context.AuctionData.Add(emptyAuctionData);
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
+                return Page();
             }
 
-            return Page();
+            _context.Auctions.Add(Auction);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
         }
     }
 }

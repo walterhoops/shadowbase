@@ -12,9 +12,9 @@ namespace shadowbase.Pages.AuctionStatuses
 {
     public class CreateModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbase.Data.ShadowbaseContext _context;
 
-        public CreateModel(shadowbase.Data.shadowbaseContext context)
+        public CreateModel(shadowbase.Data.ShadowbaseContext context)
         {
             _context = context;
         }
@@ -25,25 +25,21 @@ namespace shadowbase.Pages.AuctionStatuses
         }
 
         [BindProperty]
-        public StatusIDs StatusIDs { get; set; } = default!;
-
+        public AuctionStatus AuctionStatus { get; set; } = default!;
+        
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            var emptyStatusIDs = new StatusIDs();
-
-            if (await TryUpdateModelAsync<StatusIDs>(
-                emptyStatusIDs,
-                "status",   // Prefix for form value.
-                s => s.StatusID, s => s.StatusDescription))
+          if (!ModelState.IsValid || _context.AuctionStatuses == null || AuctionStatus == null)
             {
-                _context.StatusIDs.Add(emptyStatusIDs);
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
+                return Page();
             }
 
-            return Page();
+            _context.AuctionStatuses.Add(AuctionStatus);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
         }
     }
 }

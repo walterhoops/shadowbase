@@ -1,0 +1,35 @@
+﻿@page
+@model shadowbase.Pages.UserTypes.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>UserType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserType.UserTypeID" />
+            <div class="form-group">
+                <label asp-for="UserType.UserTypeDescription" class="control-label"></label>
+                <input asp-for="UserType.UserTypeDescription" class="form-control" />
+                <span asp-validation-for="UserType.UserTypeDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

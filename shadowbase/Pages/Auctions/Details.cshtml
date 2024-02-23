@@ -1,6 +1,4 @@
-
-﻿@page "{id:int?}"
-
+﻿@page
 @model shadowbase.Pages.Auctions.DetailsModel
 
 @{
@@ -10,142 +8,60 @@
 <h1>Details</h1>
 
 <div>
-    <h4>AuctionData</h4>
+    <h4>Auction</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuctionData.UserID)
+            @Html.DisplayNameFor(model => model.Auction.User)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AuctionData.UserID)
+            @Html.DisplayFor(model => model.Auction.User.Address)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuctionData.ClientID)
+            @Html.DisplayNameFor(model => model.Auction.Client)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AuctionData.ClientID)
+            @Html.DisplayFor(model => model.Auction.Client.Email)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuctionData.StatusID)
+            @Html.DisplayNameFor(model => model.Auction.AuctionStatus)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AuctionData.StatusID)
+            @Html.DisplayFor(model => model.Auction.AuctionStatus.AuctionStatusDescription)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuctionData.Type)
+            @Html.DisplayNameFor(model => model.Auction.AuctionType)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AuctionData.Type)
+            @Html.DisplayFor(model => model.Auction.AuctionType.AuctionTypeDescription)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuctionData.CreationDate)
+            @Html.DisplayNameFor(model => model.Auction.CreationDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AuctionData.CreationDate)
+            @Html.DisplayFor(model => model.Auction.CreationDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuctionData.ExpiryDate)
+            @Html.DisplayNameFor(model => model.Auction.ExpiryDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AuctionData.ExpiryDate)
+            @Html.DisplayFor(model => model.Auction.ExpiryDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuctionData.HomeBudget)
+            @Html.DisplayNameFor(model => model.Auction.HomeBudget)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AuctionData.HomeBudget)
+            @Html.DisplayFor(model => model.Auction.HomeBudget)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuctionData.BidID)
+            @Html.DisplayNameFor(model => model.Auction.BidLimit)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AuctionData.BidID)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuctionData.BidLimit)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AuctionData.BidLimit)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuctionData.UserData)
-        </dt>
-        <dd class="col-sm-10">
-            <table class="table">
-                <tr>
-                    <th>UserId</th>
-                    
-                </tr>
-                @foreach (var item in Model.AuctionData.UserData)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                    </tr>
-                }
-            </table>
-        </dd>
-        <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.AuctionData.AuctionBidData)
-        </dt>
-        <dd class="col-sm-10">
-            <table class="table">
-                <tr>
-                    <th>BidId</th>
-
-                </tr>
-                    @foreach (var item in Model.AuctionData.AuctionBidData)
-                    {
-                    <tr>
-                        <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                    </tr>
-                    }
-            </table>
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuctionData.StatusIDs)
-        </dt>
-        <dd class="col-sm-10">
-            <table class="table">
-                <tr>
-                    <th>StatusId</th>
-
-                </tr>
-                @foreach (var item in Model.AuctionData.StatusIDs)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                    </tr>
-                }
-            </table>
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuctionData.ClientData)
-        </dt>
-        <dd class="col-sm-10">
-            <table class="table">
-                <tr>
-                    <th>ClientId</th>
-
-                </tr>
-                @foreach (var item in Model.AuctionData.ClientData)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                    </tr>
-                }
-            </table>
+            @Html.DisplayFor(model => model.Auction.BidLimit)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.AuctionData?.Id">Edit</a> |
+    <a asp-page="./Edit" asp-route-id="@Model.Auction?.AuctionID">Edit</a> |
     <a asp-page="./Index">Back to List</a>
 </div>

@@ -12,34 +12,31 @@ namespace shadowbase.Pages.Auctions
 {
     public class DetailsModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbase.Data.ShadowbaseContext _context;
 
-        public DetailsModel(shadowbase.Data.shadowbaseContext context)
+        public DetailsModel(shadowbase.Data.ShadowbaseContext context)
         {
             _context = context;
         }
 
-      public AuctionData AuctionData { get; set; } = default!; 
+      public Auction Auction { get; set; } = default!; 
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.AuctionData == null)
+            if (id == null || _context.Auctions == null)
             {
                 return NotFound();
             }
 
-            AuctionData = await _context.AuctionData
-        .Include(a => a.UserData)
-        .ThenInclude(u => u.AuctionBidData)
-        .Include(a => a.StatusIDs)
-        .Include(a => a.ClientData)
-        .AsNoTracking()
-        .FirstOrDefaultAsync(m => m.Id == id);
-            if (AuctionData == null)
+            var auction = await _context.Auctions.FirstOrDefaultAsync(m => m.AuctionID == id);
+            if (auction == null)
             {
                 return NotFound();
             }
-            
+            else 
+            {
+                Auction = auction;
+            }
             return Page();
         }
     }

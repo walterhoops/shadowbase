@@ -1,4 +1,4 @@
-﻿@page "{id:int?}"
+﻿@page
 @model shadowbase.Pages.AuctionStatuses.EditModel
 
 @{
@@ -7,22 +7,17 @@
 
 <h1>Edit</h1>
 
-<h4>StatusIDs</h4>
+<h4>AuctionStatus</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="StatusIDs.Id" />
+            <input type="hidden" asp-for="AuctionStatus.AuctionStatusID" />
             <div class="form-group">
-                <label asp-for="StatusIDs.StatusID" class="control-label"></label>
-                <input asp-for="StatusIDs.StatusID" class="form-control" />
-                <span asp-validation-for="StatusIDs.StatusID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StatusIDs.StatusDescription" class="control-label"></label>
-                <input asp-for="StatusIDs.StatusDescription" class="form-control" />
-                <span asp-validation-for="StatusIDs.StatusDescription" class="text-danger"></span>
+                <label asp-for="AuctionStatus.AuctionStatusDescription" class="control-label"></label>
+                <input asp-for="AuctionStatus.AuctionStatusDescription" class="form-control" />
+                <span asp-validation-for="AuctionStatus.AuctionStatusDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

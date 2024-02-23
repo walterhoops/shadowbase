@@ -4,9 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using shadowbase.Data;
 using shadowbase.Models;
 
@@ -14,71 +12,25 @@ namespace shadowbase.Pages.Auctions
 {
     public class IndexModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
-        private readonly IConfiguration Configuration;
+        private readonly shadowbase.Data.ShadowbaseContext _context;
 
-        public IndexModel(shadowbase.Data.shadowbaseContext context, IConfiguration configuration)
+        public IndexModel(shadowbase.Data.ShadowbaseContext context)
         {
             _context = context;
-            Configuration = configuration;
         }
 
-        public string NameSort { get; set; }
-        public string DateSort { get; set; }
-        public string CurrentFilter { get; set; }
-        public string CurrentSort { get; set; }
+        public IList<Auction> Auction { get;set; } = default!;
 
-
-        public PaginatedList<AuctionData> StudAuctionDataents { get; set; }
-        public PaginatedList<AuctionData> AuctionData { get; private set; }
-        public async Task OnGetAsync(string sortOrder,
-            string currentFilter, string searchString, int? pageIndex)
+        public async Task OnGetAsync()
         {
-
-            CurrentSort = sortOrder;
-            NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            DateSort = sortOrder == "Date" ? "date_desc" : "Date";
-            if (searchString != null)
+            if (_context.Auctions != null)
             {
-                pageIndex = 1;
+                Auction = await _context.Auctions
+                .Include(a => a.AuctionStatus)
+                .Include(a => a.AuctionType)
+                .Include(a => a.Client)
+                .Include(a => a.User).ToListAsync();
             }
-            else
-            {
-                searchString = currentFilter;
-            }
-           
-
-            CurrentFilter = searchString;
-
-            IQueryable<AuctionData> auction = from s in _context.AuctionData
-                                                 select s;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                auction = auction.Where(s => s.Type.Contains(searchString)
-                                       || s.StatusID.Contains(searchString));
-            }
-
-
-            switch (sortOrder)
-            {
-                case "type":
-                    auction = auction.OrderByDescending(s => s.Type);
-                    break;
-                case "Date":
-                    auction = auction.OrderBy(s => s.CreationDate);
-                    break;
-                case "date_desc":
-                    auction = auction.OrderByDescending(s => s.CreationDate);
-                    break;
-                default:
-                    auction = auction.OrderBy(s => s.Type);
-                    break;
-            }
-
-                var pageSize = Configuration.GetValue("PageSize", 4);
-                AuctionData = await PaginatedList<AuctionData>.CreateAsync(
-                    auction.AsNoTracking(), pageIndex ?? 1, pageSize);
-            }
+        }
     }
 }

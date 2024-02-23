@@ -7,33 +7,31 @@ using shadowbase.Models;
 
 namespace shadowbase.Data
 {
-    public class shadowbaseContext : DbContext
+    public class ShadowbaseContext : DbContext
     {
-        public shadowbaseContext (DbContextOptions<shadowbaseContext> options)
+        public ShadowbaseContext (DbContextOptions<ShadowbaseContext> options)
             : base(options)
         {
         }
 
-
-        public DbSet<shadowbase.Models.ClientData> ClientData { get; set; }
-        public DbSet<shadowbase.Models.AuctionData> AuctionData { get; set; }
-        public DbSet<shadowbase.Models.UserData> UserData { get; set; }
-        public DbSet<shadowbase.Models.LicenseData> LicenseData { get; set; }
-        public DbSet<shadowbase.Models.AuctionBidData> AuctionBidData { get; set; }
-        public DbSet<shadowbase.Models.StatusIDs> StatusIDs { get; set; }
-        public DbSet<shadowbase.Models.UserTypes> UserTypes { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Auction> Auctions { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Bid> Bids { get; set; }
+        public DbSet<AuctionStatus> AuctionStatuses { get; set; }
+        public DbSet<AuctionType> AuctionTypes { get; set; }
+        public DbSet<UserType> UserTypes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ClientData>().ToTable("ClientData");
-            modelBuilder.Entity<AuctionData>().ToTable("AuctionData");
-            modelBuilder.Entity<UserData>().ToTable("UserData");
-            modelBuilder.Entity<LicenseData>().ToTable("LicenseData");
-            modelBuilder.Entity<AuctionBidData>().ToTable("AuctionBidData");
-            modelBuilder.Entity<StatusIDs>().ToTable("StatusIDs");
-            modelBuilder.Entity<UserTypes>().ToTable("UserTypes");
-            
+            modelBuilder.Entity<Client>().ToTable("Client");
+            modelBuilder.Entity<Auction>().ToTable("Auction");
+            modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<AuctionStatus>().ToTable("AuctionStatus");
+            modelBuilder.Entity<AuctionType>().ToTable("AuctionType");
+            modelBuilder.Entity<Bid>().ToTable("Bid");
+            modelBuilder.Entity<UserType>().ToTable("UserType");
         }
     }
    

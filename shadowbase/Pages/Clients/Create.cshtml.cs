@@ -12,9 +12,9 @@ namespace shadowbase.Pages.Clients
 {
     public class CreateModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbase.Data.ShadowbaseContext _context;
 
-        public CreateModel(shadowbase.Data.shadowbaseContext context)
+        public CreateModel(shadowbase.Data.ShadowbaseContext context)
         {
             _context = context;
         }
@@ -25,25 +25,21 @@ namespace shadowbase.Pages.Clients
         }
 
         [BindProperty]
-        public ClientData ClientData { get; set; } = default!;
-
+        public Client Client { get; set; } = default!;
+        
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            var emptyClientData = new ClientData();
-
-            if (await TryUpdateModelAsync<ClientData>(
-                emptyClientData,
-                "client",   // Prefix for form value.
-                s => s.FirstName, s => s.LastName, s => s.Email, s => s.Phone))
+          if (!ModelState.IsValid || _context.Clients == null || Client == null)
             {
-                _context.ClientData.Add(emptyClientData);
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
+                return Page();
             }
 
-            return Page();
+            _context.Clients.Add(Client);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
         }
     }
 }

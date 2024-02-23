@@ -12,71 +12,52 @@ namespace shadowbase.Pages.Clients
 {
     public class DeleteModel : PageModel
     {
-        private readonly shadowbaseContext _context;
-        private readonly ILogger<DeleteModel> _logger;
+        private readonly shadowbase.Data.ShadowbaseContext _context;
 
-        public DeleteModel(shadowbaseContext context,
-                           ILogger<DeleteModel> logger)
+        public DeleteModel(shadowbase.Data.ShadowbaseContext context)
         {
             _context = context;
-            _logger = logger;
         }
 
         [BindProperty]
-        public ClientData ClientData { get; set; }
-        public string ErrorMessage { get; set; }
+      public Client Client { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.Clients == null)
             {
                 return NotFound();
             }
 
-            ClientData = await _context.ClientData
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var client = await _context.Clients.FirstOrDefaultAsync(m => m.ClientID == id);
 
-            if (ClientData == null)
+            if (client == null)
             {
                 return NotFound();
             }
-
-            if (saveChangesError.GetValueOrDefault())
+            else 
             {
-                ErrorMessage = String.Format("Delete {ID} failed. Try again", id);
+                Client = client;
             }
-
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.Clients == null)
             {
                 return NotFound();
             }
+            var client = await _context.Clients.FindAsync(id);
 
-            var ClientData = await _context.ClientData.FindAsync(id);
-
-            if (ClientData == null)
+            if (client != null)
             {
-                return NotFound();
-            }
-
-            try
-            {
-                _context.ClientData.Remove(ClientData);
+                Client = client;
+                _context.Clients.Remove(Client);
                 await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
             }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, ErrorMessage);
 
-                return RedirectToAction("./Delete",
-                                     new { id, saveChangesError = true });
-            }
+            return RedirectToPage("./Index");
         }
     }
 }

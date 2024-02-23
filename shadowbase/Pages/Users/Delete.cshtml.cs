@@ -12,71 +12,52 @@ namespace shadowbase.Pages.Users
 {
     public class DeleteModel : PageModel
     {
-        private readonly shadowbaseContext _context;
-        private readonly ILogger<DeleteModel> _logger;
+        private readonly shadowbase.Data.ShadowbaseContext _context;
 
-        public DeleteModel(shadowbaseContext context,
-                           ILogger<DeleteModel> logger)
+        public DeleteModel(shadowbase.Data.ShadowbaseContext context)
         {
             _context = context;
-            _logger = logger;
         }
 
         [BindProperty]
-        public UserData UserData { get; set; }
-        public string ErrorMessage { get; set; }
+      public User User { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.Users == null)
             {
                 return NotFound();
             }
 
-            UserData = await _context.UserData
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.UserID == id);
 
-            if (UserData == null)
+            if (user == null)
             {
                 return NotFound();
             }
-
-            if (saveChangesError.GetValueOrDefault())
+            else 
             {
-                ErrorMessage = String.Format("Delete {ID} failed. Try again", id);
+                User = user;
             }
-
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.Users == null)
             {
                 return NotFound();
             }
+            var user = await _context.Users.FindAsync(id);
 
-            var UserData = await _context.UserData.FindAsync(id);
-
-            if (UserData == null)
+            if (user != null)
             {
-                return NotFound();
-            }
-
-            try
-            {
-                _context.UserData.Remove(UserData);
+                User = user;
+                _context.Users.Remove(User);
                 await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
             }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, ErrorMessage);
 
-                return RedirectToAction("./Delete",
-                                     new { id, saveChangesError = true });
-            }
+            return RedirectToPage("./Index");
         }
     }
 }

@@ -2,83 +2,70 @@
 @model shadowbase.Pages.Users.IndexModel
 
 @{
-    ViewData["Title"] = "UserData";
+    ViewData["Title"] = "Index";
 }
 
-<h2>UserData</h2>
+<h1>Index</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
-<form asp-page="./Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find by name:
-            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-page="./Index">Back to full List</a>
-        </p>
-    </div>
-</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].TypeID)
+                @Html.DisplayNameFor(model => model.User[0].UserType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].Username)
+                @Html.DisplayNameFor(model => model.User[0].Username)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].Password)
+                @Html.DisplayNameFor(model => model.User[0].Password)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].FirstName)
-            </th>
-            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
-               asp-route-currentFilter="@Model.CurrentFilter">
-                <th>
-                    @Html.DisplayNameFor(model => model.UserData[0].LastName)
-                </th>
-            </a>
-            <th>
-                @Html.DisplayNameFor(model => model.UserData[0].DOB)
+                @Html.DisplayNameFor(model => model.User[0].FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].Phone)
-            </th>
-            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
-               asp-route-currentFilter="@Model.CurrentFilter">
-                <th>
-                    @Html.DisplayNameFor(model => model.UserData[0].Email)
-                </th>
-            </a>
-            <th>
-                @Html.DisplayNameFor(model => model.UserData[0].Address)
+                @Html.DisplayNameFor(model => model.User[0].LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].City)
+                @Html.DisplayNameFor(model => model.User[0].DOB)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].PostalCode)
+                @Html.DisplayNameFor(model => model.User[0].Phone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].Country)
+                @Html.DisplayNameFor(model => model.User[0].Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].Company)
+                @Html.DisplayNameFor(model => model.User[0].Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].PayPalEmail)
+                @Html.DisplayNameFor(model => model.User[0].City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].PostalCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].Company)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].PayPalEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].LicenseID)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.UserData) {
+@foreach (var item in Model.User) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.TypeID)
+                @Html.DisplayFor(modelItem => item.UserType.UserTypeDescription)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Username)
@@ -120,30 +107,14 @@
                 @Html.DisplayFor(modelItem => item.PayPalEmail)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.LicenseID)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.UserID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.UserID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.UserID">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-@{
-    var prevDisabled = !Model.UserData.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.UserData.HasNextPage ? "disabled" : "";
-}
-
-<a asp-page="./Index"
-   asp-route-sortOrder="@Model.CurrentSort"
-   asp-route-pageIndex="@(Model.UserData.PageIndex - 1)"
-   asp-route-currentFilter="@Model.CurrentFilter"
-   class="btn btn-primary @prevDisabled">
-    Previous
-</a>
-<a asp-page="./Index"
-   asp-route-sortOrder="@Model.CurrentSort"
-   asp-route-pageIndex="@(Model.UserData.PageIndex + 1)"
-   asp-route-currentFilter="@Model.CurrentFilter"
-   class="btn btn-primary @nextDisabled">
-    Next
-</a>

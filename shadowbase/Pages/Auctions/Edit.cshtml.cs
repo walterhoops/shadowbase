@@ -13,56 +13,69 @@ namespace shadowbase.Pages.Auctions
 {
     public class EditModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbase.Data.ShadowbaseContext _context;
 
-        public EditModel(shadowbase.Data.shadowbaseContext context)
+        public EditModel(shadowbase.Data.ShadowbaseContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public AuctionData AuctionData { get; set; } = default!;
+        public Auction Auction { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.Auctions == null)
             {
                 return NotFound();
             }
 
-            AuctionData = await _context.AuctionData.FindAsync(id);
-
-            if (AuctionData == null)
+            var auction =  await _context.Auctions.FirstOrDefaultAsync(m => m.AuctionID == id);
+            if (auction == null)
             {
                 return NotFound();
             }
+            Auction = auction;
+           ViewData["AuctionStatusIDFK"] = new SelectList(_context.AuctionStatuses, "AuctionStatusID", "AuctionStatusDescription");
+           ViewData["AuctionTypeIDFK"] = new SelectList(_context.AuctionTypes, "AuctionTypeID", "AuctionTypeDescription");
+           ViewData["ClientIDFK"] = new SelectList(_context.Clients, "ClientID", "Email");
+           ViewData["UserIDFK"] = new SelectList(_context.Users, "UserID", "Address");
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int id)
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see https://aka.ms/RazorPagesCRUD.
+        public async Task<IActionResult> OnPostAsync()
         {
-            var auctionToUpdate = await _context.AuctionData.FindAsync(id);
-
-            if (auctionToUpdate == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return Page();
             }
 
-            if (await TryUpdateModelAsync<AuctionData>(
-                auctionToUpdate,
-                "auction",
-                s => s.UserID, s => s.ClientID, s => s.StatusID, s => s.Type, s => s.CreationDate, s => s.ExpiryDate, s => s.HomeBudget, s => s.BidID, s => s.BidLimit))
+            _context.Attach(Auction).State = EntityState.Modified;
+
+            try
             {
                 await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AuctionExists(Auction.AuctionID))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            return Page();
+            return RedirectToPage("./Index");
         }
 
-        private bool AuctionDataExists(int id)
+        private bool AuctionExists(int id)
         {
-          return (_context.AuctionData?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Auctions?.Any(e => e.AuctionID == id)).GetValueOrDefault();
         }
     }
 }

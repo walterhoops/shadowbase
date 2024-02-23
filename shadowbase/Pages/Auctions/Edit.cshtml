@@ -1,6 +1,4 @@
-
-﻿@page "{id:int?}"
-
+﻿@page
 @model shadowbase.Pages.Auctions.EditModel
 
 @{
@@ -9,57 +7,52 @@
 
 <h1>Edit</h1>
 
-<h4>AuctionData</h4>
+<h4>Auction</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="AuctionData.Id" />
+            <input type="hidden" asp-for="Auction.AuctionID" />
             <div class="form-group">
-                <label asp-for="AuctionData.UserID" class="control-label"></label>
-                <input asp-for="AuctionData.UserID" class="form-control" />
-                <span asp-validation-for="AuctionData.UserID" class="text-danger"></span>
+                <label asp-for="Auction.UserIDFK" class="control-label"></label>
+                <select asp-for="Auction.UserIDFK" class="form-control" asp-items="ViewBag.UserIDFK"></select>
+                <span asp-validation-for="Auction.UserIDFK" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AuctionData.ClientID" class="control-label"></label>
-                <input asp-for="AuctionData.ClientID" class="form-control" />
-                <span asp-validation-for="AuctionData.ClientID" class="text-danger"></span>
+                <label asp-for="Auction.ClientIDFK" class="control-label"></label>
+                <select asp-for="Auction.ClientIDFK" class="form-control" asp-items="ViewBag.ClientIDFK"></select>
+                <span asp-validation-for="Auction.ClientIDFK" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AuctionData.StatusID" class="control-label"></label>
-                <input asp-for="AuctionData.StatusID" class="form-control" />
-                <span asp-validation-for="AuctionData.StatusID" class="text-danger"></span>
+                <label asp-for="Auction.AuctionStatusIDFK" class="control-label"></label>
+                <select asp-for="Auction.AuctionStatusIDFK" class="form-control" asp-items="ViewBag.AuctionStatusIDFK"></select>
+                <span asp-validation-for="Auction.AuctionStatusIDFK" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AuctionData.Type" class="control-label"></label>
-                <input asp-for="AuctionData.Type" class="form-control" />
-                <span asp-validation-for="AuctionData.Type" class="text-danger"></span>
+                <label asp-for="Auction.AuctionTypeIDFK" class="control-label"></label>
+                <select asp-for="Auction.AuctionTypeIDFK" class="form-control" asp-items="ViewBag.AuctionTypeIDFK"></select>
+                <span asp-validation-for="Auction.AuctionTypeIDFK" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AuctionData.CreationDate" class="control-label"></label>
-                <input asp-for="AuctionData.CreationDate" class="form-control" />
-                <span asp-validation-for="AuctionData.CreationDate" class="text-danger"></span>
+                <label asp-for="Auction.CreationDate" class="control-label"></label>
+                <input asp-for="Auction.CreationDate" class="form-control" />
+                <span asp-validation-for="Auction.CreationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AuctionData.ExpiryDate" class="control-label"></label>
-                <input asp-for="AuctionData.ExpiryDate" class="form-control" />
-                <span asp-validation-for="AuctionData.ExpiryDate" class="text-danger"></span>
+                <label asp-for="Auction.ExpiryDate" class="control-label"></label>
+                <input asp-for="Auction.ExpiryDate" class="form-control" />
+                <span asp-validation-for="Auction.ExpiryDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AuctionData.HomeBudget" class="control-label"></label>
-                <input asp-for="AuctionData.HomeBudget" class="form-control" />
-                <span asp-validation-for="AuctionData.HomeBudget" class="text-danger"></span>
+                <label asp-for="Auction.HomeBudget" class="control-label"></label>
+                <input asp-for="Auction.HomeBudget" class="form-control" />
+                <span asp-validation-for="Auction.HomeBudget" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AuctionData.BidID" class="control-label"></label>
-                <input asp-for="AuctionData.BidID" class="form-control" />
-                <span asp-validation-for="AuctionData.BidID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AuctionData.BidLimit" class="control-label"></label>
-                <input asp-for="AuctionData.BidLimit" class="form-control" />
-                <span asp-validation-for="AuctionData.BidLimit" class="text-danger"></span>
+                <label asp-for="Auction.BidLimit" class="control-label"></label>
+                <input asp-for="Auction.BidLimit" class="form-control" />
+                <span asp-validation-for="Auction.BidLimit" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

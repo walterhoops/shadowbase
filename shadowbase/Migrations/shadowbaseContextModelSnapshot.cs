@@ -10,149 +10,37 @@ using shadowbase.Data;
 
 namespace shadowbase.Migrations
 {
-    [DbContext(typeof(shadowbaseContext))]
-    partial class shadowbaseContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ShadowbaseContext))]
+    partial class ShadowbaseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.15")
+                .HasAnnotation("ProductVersion", "7.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AuctionBidDataAuctionData", b =>
+            modelBuilder.Entity("shadowbase.Models.Auction", b =>
                 {
-                    b.Property<int>("AuctionBidDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AuctionDataId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuctionBidDataId", "AuctionDataId");
-
-                    b.HasIndex("AuctionDataId");
-
-                    b.ToTable("AuctionBidDataAuctionData");
-                });
-
-            modelBuilder.Entity("AuctionBidDataUserData", b =>
-                {
-                    b.Property<int>("AuctionBidDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserDataId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuctionBidDataId", "UserDataId");
-
-                    b.HasIndex("UserDataId");
-
-                    b.ToTable("AuctionBidDataUserData");
-                });
-
-            modelBuilder.Entity("AuctionDataClientData", b =>
-                {
-                    b.Property<int>("AuctionDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClientDataId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuctionDataId", "ClientDataId");
-
-                    b.HasIndex("ClientDataId");
-
-                    b.ToTable("AuctionDataClientData");
-                });
-
-            modelBuilder.Entity("AuctionDataStatusIDs", b =>
-                {
-                    b.Property<int>("AuctionDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StatusIDsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuctionDataId", "StatusIDsId");
-
-                    b.HasIndex("StatusIDsId");
-
-                    b.ToTable("AuctionDataStatusIDs");
-                });
-
-            modelBuilder.Entity("AuctionDataUserData", b =>
-                {
-                    b.Property<int>("AuctionDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserDataId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuctionDataId", "UserDataId");
-
-                    b.HasIndex("UserDataId");
-
-                    b.ToTable("AuctionDataUserData");
-                });
-
-            modelBuilder.Entity("LicenseDataUserData", b =>
-                {
-                    b.Property<int>("LicenseDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserDataId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LicenseDataId", "UserDataId");
-
-                    b.HasIndex("UserDataId");
-
-                    b.ToTable("LicenseDataUserData");
-                });
-
-            modelBuilder.Entity("shadowbase.Models.AuctionBidData", b =>
-                {
-                    b.Property<int>("Id")
+                    b.Property<int>("AuctionID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuctionID"));
 
-                    b.Property<decimal>("BidAmount")
-                        .HasColumnType("decimal(2, 2)");
-
-                    b.Property<DateTime>("BidDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserID")
+                    b.Property<int>("AuctionStatusIDFK")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("AuctionBidData", (string)null);
-                });
-
-            modelBuilder.Entity("shadowbase.Models.AuctionData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BidID")
+                    b.Property<int>("AuctionTypeIDFK")
                         .HasColumnType("int");
 
                     b.Property<decimal>("BidLimit")
                         .HasColumnType("decimal(2, 2)");
 
-                    b.Property<int>("ClientID")
+                    b.Property<int>("ClientIDFK")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Commission")
-                        .HasColumnType("decimal(2, 2)");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -160,32 +48,89 @@ namespace shadowbase.Migrations
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("HomeBudget")
-                        .HasColumnType("decimal(2, 2)");
-
-                    b.Property<string>("StatusID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserID")
+                    b.Property<int>("HomeBudget")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("UserIDFK")
+                        .HasColumnType("int");
 
-                    b.ToTable("AuctionData", (string)null);
+                    b.HasKey("AuctionID");
+
+                    b.HasIndex("AuctionStatusIDFK");
+
+                    b.HasIndex("AuctionTypeIDFK");
+
+                    b.HasIndex("ClientIDFK");
+
+                    b.HasIndex("UserIDFK");
+
+                    b.ToTable("Auction", (string)null);
                 });
 
-            modelBuilder.Entity("shadowbase.Models.ClientData", b =>
+            modelBuilder.Entity("shadowbase.Models.AuctionStatus", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AuctionStatusID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AuctionStatusDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AuctionStatusID");
+
+                    b.ToTable("AuctionStatus", (string)null);
+                });
+
+            modelBuilder.Entity("shadowbase.Models.AuctionType", b =>
+                {
+                    b.Property<int>("AuctionTypeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AuctionTypeDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AuctionTypeID");
+
+                    b.ToTable("AuctionType", (string)null);
+                });
+
+            modelBuilder.Entity("shadowbase.Models.Bid", b =>
+                {
+                    b.Property<int>("BidID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BidID"));
+
+                    b.Property<int>("AuctionIDFK")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("BidAmount")
+                        .HasColumnType("decimal(2, 2)");
+
+                    b.Property<DateTime>("BidDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UserIDFK")
+                        .HasColumnType("int");
+
+                    b.HasKey("BidID");
+
+                    b.HasIndex("AuctionIDFK");
+
+                    b.HasIndex("UserIDFK");
+
+                    b.ToTable("Bid", (string)null);
+                });
+
+            modelBuilder.Entity("shadowbase.Models.Client", b =>
+                {
+                    b.Property<int>("ClientID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientID"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -203,66 +148,18 @@ namespace shadowbase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ClientID");
 
-                    b.ToTable("ClientData", (string)null);
+                    b.ToTable("Client", (string)null);
                 });
 
-            modelBuilder.Entity("shadowbase.Models.LicenseData", b =>
+            modelBuilder.Entity("shadowbase.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("hiLicense")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("mbLicense")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("reLicense")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LicenseData", (string)null);
-                });
-
-            modelBuilder.Entity("shadowbase.Models.StatusIDs", b =>
-                {
-                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("StatusDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StatusID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StatusIDs", (string)null);
-                });
-
-            modelBuilder.Entity("shadowbase.Models.UserData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -295,6 +192,10 @@ namespace shadowbase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LicenseID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -311,151 +212,127 @@ namespace shadowbase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TypeID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserTypesId")
+                    b.Property<int>("UserTypeIDFK")
                         .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserID");
 
-                    b.HasIndex("UserTypesId");
+                    b.HasIndex("UserTypeIDFK");
 
-                    b.ToTable("UserData", (string)null);
+                    b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("shadowbase.Models.UserTypes", b =>
+            modelBuilder.Entity("shadowbase.Models.UserType", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserTypeID")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("TypeDescription")
+                    b.Property<string>("UserTypeDescription")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TypeID")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                    b.HasKey("UserTypeID");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("UserTypes", (string)null);
+                    b.ToTable("UserType", (string)null);
                 });
 
-            modelBuilder.Entity("AuctionBidDataAuctionData", b =>
+            modelBuilder.Entity("shadowbase.Models.Auction", b =>
                 {
-                    b.HasOne("shadowbase.Models.AuctionBidData", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionBidDataId")
+                    b.HasOne("shadowbase.Models.AuctionStatus", "AuctionStatus")
+                        .WithMany("Auctions")
+                        .HasForeignKey("AuctionStatusIDFK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("shadowbase.Models.AuctionData", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionDataId")
+                    b.HasOne("shadowbase.Models.AuctionType", "AuctionType")
+                        .WithMany("Auctions")
+                        .HasForeignKey("AuctionTypeIDFK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("shadowbase.Models.Client", "Client")
+                        .WithMany("Auctions")
+                        .HasForeignKey("ClientIDFK")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("shadowbase.Models.User", "User")
+                        .WithMany("Auctions")
+                        .HasForeignKey("UserIDFK")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AuctionStatus");
+
+                    b.Navigation("AuctionType");
+
+                    b.Navigation("Client");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AuctionBidDataUserData", b =>
+            modelBuilder.Entity("shadowbase.Models.Bid", b =>
                 {
-                    b.HasOne("shadowbase.Models.AuctionBidData", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionBidDataId")
+                    b.HasOne("shadowbase.Models.Auction", "Auction")
+                        .WithMany("Bids")
+                        .HasForeignKey("AuctionIDFK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("shadowbase.Models.UserData", null)
-                        .WithMany()
-                        .HasForeignKey("UserDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("shadowbase.Models.User", "User")
+                        .WithMany("Bids")
+                        .HasForeignKey("UserIDFK");
+
+                    b.Navigation("Auction");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AuctionDataClientData", b =>
+            modelBuilder.Entity("shadowbase.Models.User", b =>
                 {
-                    b.HasOne("shadowbase.Models.AuctionData", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionDataId")
+                    b.HasOne("shadowbase.Models.UserType", "UserType")
+                        .WithMany("Users")
+                        .HasForeignKey("UserTypeIDFK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("shadowbase.Models.ClientData", null)
-                        .WithMany()
-                        .HasForeignKey("ClientDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("AuctionDataStatusIDs", b =>
+            modelBuilder.Entity("shadowbase.Models.Auction", b =>
                 {
-                    b.HasOne("shadowbase.Models.AuctionData", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("shadowbase.Models.StatusIDs", null)
-                        .WithMany()
-                        .HasForeignKey("StatusIDsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Bids");
                 });
 
-            modelBuilder.Entity("AuctionDataUserData", b =>
+            modelBuilder.Entity("shadowbase.Models.AuctionStatus", b =>
                 {
-                    b.HasOne("shadowbase.Models.AuctionData", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("shadowbase.Models.UserData", null)
-                        .WithMany()
-                        .HasForeignKey("UserDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Auctions");
                 });
 
-            modelBuilder.Entity("LicenseDataUserData", b =>
+            modelBuilder.Entity("shadowbase.Models.AuctionType", b =>
                 {
-                    b.HasOne("shadowbase.Models.LicenseData", null)
-                        .WithMany()
-                        .HasForeignKey("LicenseDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("shadowbase.Models.UserData", null)
-                        .WithMany()
-                        .HasForeignKey("UserDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Auctions");
                 });
 
-            modelBuilder.Entity("shadowbase.Models.UserData", b =>
+            modelBuilder.Entity("shadowbase.Models.Client", b =>
                 {
-                    b.HasOne("shadowbase.Models.UserTypes", "UserTypes")
-                        .WithMany("UserData")
-                        .HasForeignKey("UserTypesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserTypes");
+                    b.Navigation("Auctions");
                 });
 
-            modelBuilder.Entity("shadowbase.Models.UserTypes", b =>
+            modelBuilder.Entity("shadowbase.Models.User", b =>
                 {
-                    b.Navigation("UserData");
+                    b.Navigation("Auctions");
+
+                    b.Navigation("Bids");
+                });
+
+            modelBuilder.Entity("shadowbase.Models.UserType", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,32 +12,31 @@ namespace shadowbase.Pages.Clients
 {
     public class DetailsModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbase.Data.ShadowbaseContext _context;
 
-        public DetailsModel(shadowbase.Data.shadowbaseContext context)
+        public DetailsModel(shadowbase.Data.ShadowbaseContext context)
         {
             _context = context;
         }
 
-      public ClientData ClientData { get; set; } = default!; 
+      public Client Client { get; set; } = default!; 
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.ClientData == null)
+            if (id == null || _context.Clients == null)
             {
                 return NotFound();
             }
 
-            ClientData = await _context.ClientData
-        .Include(c => c.AuctionData)
-        
-        .AsNoTracking()
-        .FirstOrDefaultAsync(m => m.Id == id);
-            if (ClientData == null)
+            var client = await _context.Clients.FirstOrDefaultAsync(m => m.ClientID == id);
+            if (client == null)
             {
                 return NotFound();
             }
-            
+            else 
+            {
+                Client = client;
+            }
             return Page();
         }
     }

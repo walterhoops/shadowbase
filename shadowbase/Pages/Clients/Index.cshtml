@@ -2,50 +2,34 @@
 @model shadowbase.Pages.Clients.IndexModel
 
 @{
-    ViewData["Title"] = "ClientData";
+    ViewData["Title"] = "Index";
 }
 
-<h2>ClientData</h2>
+<h1>Index</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
-<form asp-page="./Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find by name:
-            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-page="./Index">Back to full List</a>
-        </p>
-    </div>
-</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ClientData[0].FirstName)
+                @Html.DisplayNameFor(model => model.Client[0].FirstName)
             </th>
-            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
-               asp-route-currentFilter="@Model.CurrentFilter">
-                <th>
-                    @Html.DisplayNameFor(model => model.ClientData[0].LastName)
-                </th>
-            </a>
-            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
-               asp-route-currentFilter="@Model.CurrentFilter">
-                <th>
-                    @Html.DisplayNameFor(model => model.ClientData[0].Email)
-                </th>
-            </a>
             <th>
-                @Html.DisplayNameFor(model => model.ClientData[0].Phone)
+                @Html.DisplayNameFor(model => model.Client[0].LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client[0].Phone)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.ClientData) {
+@foreach (var item in Model.Client) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
@@ -60,30 +44,11 @@
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.ClientID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ClientID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ClientID">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-@{
-    var prevDisabled = !Model.ClientData.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.ClientData.HasNextPage ? "disabled" : "";
-}
-
-<a asp-page="./Index"
-   asp-route-sortOrder="@Model.CurrentSort"
-   asp-route-pageIndex="@(Model.ClientData.PageIndex - 1)"
-   asp-route-currentFilter="@Model.CurrentFilter"
-   class="btn btn-primary @prevDisabled">
-    Previous
-</a>
-<a asp-page="./Index"
-   asp-route-sortOrder="@Model.CurrentSort"
-   asp-route-pageIndex="@(Model.ClientData.PageIndex + 1)"
-   asp-route-currentFilter="@Model.CurrentFilter"
-   class="btn btn-primary @nextDisabled">
-    Next
-</a>

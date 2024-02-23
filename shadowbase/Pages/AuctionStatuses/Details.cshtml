@@ -1,4 +1,4 @@
-﻿@page "{id:int?}"
+﻿@page
 @model shadowbase.Pages.AuctionStatuses.DetailsModel
 
 @{
@@ -8,43 +8,18 @@
 <h1>Details</h1>
 
 <div>
-    <h4>StatusIDs</h4>
+    <h4>AuctionStatus</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StatusIDs.StatusID)
+            @Html.DisplayNameFor(model => model.AuctionStatus.AuctionStatusDescription)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StatusIDs.StatusID)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StatusIDs.StatusDescription)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StatusIDs.StatusDescription)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StatusIDs.AuctionData)
-        </dt>
-        <dd class="col-sm-10">
-            <table class="table">
-                <tr>
-                    
-                    <th>StatusID</th>
-                </tr>
-                @foreach (var item in Model.StatusIDs.AuctionData)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StatusID)
-                        </td>
-                    </tr>
-                }
-            </table>
+            @Html.DisplayFor(model => model.AuctionStatus.AuctionStatusDescription)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.StatusIDs?.Id">Edit</a> |
+    <a asp-page="./Edit" asp-route-id="@Model.AuctionStatus?.AuctionStatusID">Edit</a> |
     <a asp-page="./Index">Back to List</a>
 </div>

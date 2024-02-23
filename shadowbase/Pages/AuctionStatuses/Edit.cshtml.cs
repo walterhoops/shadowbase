@@ -13,56 +13,65 @@ namespace shadowbase.Pages.AuctionStatuses
 {
     public class EditModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbase.Data.ShadowbaseContext _context;
 
-        public EditModel(shadowbase.Data.shadowbaseContext context)
+        public EditModel(shadowbase.Data.ShadowbaseContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public StatusIDs StatusIDs { get; set; } = default!;
+        public AuctionStatus AuctionStatus { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.AuctionStatuses == null)
             {
                 return NotFound();
             }
 
-            StatusIDs = await _context.StatusIDs.FindAsync(id);
-
-            if (StatusIDs == null)
+            var auctionstatus =  await _context.AuctionStatuses.FirstOrDefaultAsync(m => m.AuctionStatusID == id);
+            if (auctionstatus == null)
             {
                 return NotFound();
             }
+            AuctionStatus = auctionstatus;
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int id)
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see https://aka.ms/RazorPagesCRUD.
+        public async Task<IActionResult> OnPostAsync()
         {
-            var StatusIDsToUpdate = await _context.StatusIDs.FindAsync(id);
-
-            if (StatusIDsToUpdate == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return Page();
             }
 
-            if (await TryUpdateModelAsync<StatusIDs>(
-                StatusIDsToUpdate,
-                "status",
-                s => s.StatusID, s => s.StatusDescription))
+            _context.Attach(AuctionStatus).State = EntityState.Modified;
+
+            try
             {
                 await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AuctionStatusExists(AuctionStatus.AuctionStatusID))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            return Page();
+            return RedirectToPage("./Index");
         }
 
-        private bool StatusIDsExists(int id)
+        private bool AuctionStatusExists(int id)
         {
-          return (_context.StatusIDs?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.AuctionStatuses?.Any(e => e.AuctionStatusID == id)).GetValueOrDefault();
         }
     }
 }

@@ -13,56 +13,65 @@ namespace shadowbase.Pages.Clients
 {
     public class EditModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbase.Data.ShadowbaseContext _context;
 
-        public EditModel(shadowbase.Data.shadowbaseContext context)
+        public EditModel(shadowbase.Data.ShadowbaseContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public ClientData ClientData { get; set; } = default!;
+        public Client Client { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.Clients == null)
             {
                 return NotFound();
             }
 
-            ClientData = await _context.ClientData.FindAsync(id);
-
-            if (ClientData == null)
+            var client =  await _context.Clients.FirstOrDefaultAsync(m => m.ClientID == id);
+            if (client == null)
             {
                 return NotFound();
             }
+            Client = client;
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int id)
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see https://aka.ms/RazorPagesCRUD.
+        public async Task<IActionResult> OnPostAsync()
         {
-            var ClientDataToUpdate = await _context.ClientData.FindAsync(id);
-
-            if (ClientDataToUpdate == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return Page();
             }
 
-            if (await TryUpdateModelAsync<ClientData>(
-                ClientDataToUpdate,
-                "client",
-                s => s.FirstName, s => s.LastName, s => s.Email, s => s.Phone))
+            _context.Attach(Client).State = EntityState.Modified;
+
+            try
             {
                 await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ClientExists(Client.ClientID))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            return Page();
+            return RedirectToPage("./Index");
         }
 
-        private bool ClientDataExists(int id)
+        private bool ClientExists(int id)
         {
-          return (_context.ClientData?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Clients?.Any(e => e.ClientID == id)).GetValueOrDefault();
         }
     }
 }

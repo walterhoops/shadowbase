@@ -1,0 +1,36 @@
+﻿@page
+@model shadowbase.Pages.UserTypes.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserType[0].UserTypeDescription)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.UserType) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserTypeDescription)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.UserTypeID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.UserTypeID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.UserTypeID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

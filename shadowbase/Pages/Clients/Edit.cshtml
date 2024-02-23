@@ -1,6 +1,4 @@
-
-﻿@page "{id:int?}"
-
+﻿@page
 @model shadowbase.Pages.Clients.EditModel
 
 @{
@@ -9,32 +7,32 @@
 
 <h1>Edit</h1>
 
-<h4>ClientData</h4>
+<h4>Client</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ClientData.Id" />
+            <input type="hidden" asp-for="Client.ClientID" />
             <div class="form-group">
-                <label asp-for="ClientData.FirstName" class="control-label"></label>
-                <input asp-for="ClientData.FirstName" class="form-control" />
-                <span asp-validation-for="ClientData.FirstName" class="text-danger"></span>
+                <label asp-for="Client.FirstName" class="control-label"></label>
+                <input asp-for="Client.FirstName" class="form-control" />
+                <span asp-validation-for="Client.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ClientData.LastName" class="control-label"></label>
-                <input asp-for="ClientData.LastName" class="form-control" />
-                <span asp-validation-for="ClientData.LastName" class="text-danger"></span>
+                <label asp-for="Client.LastName" class="control-label"></label>
+                <input asp-for="Client.LastName" class="form-control" />
+                <span asp-validation-for="Client.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ClientData.Email" class="control-label"></label>
-                <input asp-for="ClientData.Email" class="form-control" />
-                <span asp-validation-for="ClientData.Email" class="text-danger"></span>
+                <label asp-for="Client.Email" class="control-label"></label>
+                <input asp-for="Client.Email" class="form-control" />
+                <span asp-validation-for="Client.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ClientData.Phone" class="control-label"></label>
-                <input asp-for="ClientData.Phone" class="form-control" />
-                <span asp-validation-for="ClientData.Phone" class="text-danger"></span>
+                <label asp-for="Client.Phone" class="control-label"></label>
+                <input asp-for="Client.Phone" class="form-control" />
+                <span asp-validation-for="Client.Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

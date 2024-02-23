@@ -1,4 +1,4 @@
-﻿@page "{id:int?}"
+﻿@page
 @model shadowbase.Pages.Users.DeleteModel
 
 @{
@@ -6,100 +6,106 @@
 }
 
 <h1>Delete</h1>
-<p class="text-danger">@Model.ErrorMessage</p>
+
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>UserData</h4>
+    <h4>User</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.TypeID)
+            @Html.DisplayNameFor(model => model.User.UserType)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.TypeID)
+            @Html.DisplayFor(model => model.User.UserType.UserTypeDescription)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.Username)
+            @Html.DisplayNameFor(model => model.User.Username)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.Username)
+            @Html.DisplayFor(model => model.User.Username)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.Password)
+            @Html.DisplayNameFor(model => model.User.Password)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.Password)
+            @Html.DisplayFor(model => model.User.Password)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.FirstName)
+            @Html.DisplayNameFor(model => model.User.FirstName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.FirstName)
+            @Html.DisplayFor(model => model.User.FirstName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.LastName)
+            @Html.DisplayNameFor(model => model.User.LastName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.LastName)
+            @Html.DisplayFor(model => model.User.LastName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.DOB)
+            @Html.DisplayNameFor(model => model.User.DOB)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.DOB)
+            @Html.DisplayFor(model => model.User.DOB)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.Phone)
+            @Html.DisplayNameFor(model => model.User.Phone)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.Phone)
+            @Html.DisplayFor(model => model.User.Phone)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.Email)
+            @Html.DisplayNameFor(model => model.User.Email)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.Email)
+            @Html.DisplayFor(model => model.User.Email)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.Address)
+            @Html.DisplayNameFor(model => model.User.Address)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.Address)
+            @Html.DisplayFor(model => model.User.Address)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.City)
+            @Html.DisplayNameFor(model => model.User.City)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.City)
+            @Html.DisplayFor(model => model.User.City)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.PostalCode)
+            @Html.DisplayNameFor(model => model.User.PostalCode)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.PostalCode)
+            @Html.DisplayFor(model => model.User.PostalCode)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.Country)
+            @Html.DisplayNameFor(model => model.User.Country)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.Country)
+            @Html.DisplayFor(model => model.User.Country)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.Company)
+            @Html.DisplayNameFor(model => model.User.Company)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.Company)
+            @Html.DisplayFor(model => model.User.Company)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserData.PayPalEmail)
+            @Html.DisplayNameFor(model => model.User.PayPalEmail)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserData.PayPalEmail)
+            @Html.DisplayFor(model => model.User.PayPalEmail)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.LicenseID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.LicenseID)
         </dd>
     </dl>
     
     <form method="post">
-        <input type="hidden" asp-for="UserData.Id" />
+        <input type="hidden" asp-for="User.UserID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-page="./Index">Back to List</a>
     </form>
