@@ -1,40 +1,65 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace shadowbase.Models;
+
 public class UserData
 {
     public int Id { get; set; }
-    [Required]
+
+    [Required(ErrorMessage = "Type ID is required")]
+    [Display(Name = "Type ID")]
     public string TypeID { get; set; }
-    [Required]
+  
+    [Required(ErrorMessage = "Username is required")]
     public string Username { get; set; }
+    
+    [Required(ErrorMessage = "Password is required")]
     [DataType(DataType.Password)]
     [Required]
     public string Password { get; set; }
-    [Required]
+  
+    [Required(ErrorMessage = "First Name is required")]
+    [Display(Name = "First Name")]
     public string FirstName { get; set; }
-    [Required]
+  
+    [Required(ErrorMessage = "Last Name is required")]
+    [Display(Name = "Last Name")]
     public string LastName { get; set; }
+  
+    [Required(ErrorMessage = "Date of Birth is required")]
+    [Display(Name = "Date of Birth")]
     [DataType(DataType.Date)]
-    [Required]
     public DateTime DOB { get; set; }
+    
+    [Required(ErrorMessage = "Phone number is required")]
+    [Phone(ErrorMessage = "Invalid Phone Number")]
+    [StringLength(int.MaxValue)] // nvarchar(max) equivalent
+    [Display(Name = "Phone")]
     [DataType(DataType.PhoneNumber)]
-    public string? Phone { get; set; }
+    public string Phone { get; set; }
+
+    [Required(ErrorMessage = "Email is required")]
     [DataType(DataType.EmailAddress)]
-    [Required]
     public string Email { get; set; }
-    [Required]
+  
+    [Required(ErrorMessage = "Address is required")]
     public string Address { get; set; }
-    [Required]
+  
+    [Required(ErrorMessage = "City is required")]
     public string City { get; set; }
+  
+    [Required(ErrorMessage = "Postal Code is required")]
     [DataType(DataType.PostalCode)]
-    [Required]
     public string PostalCode { get; set; }
-    [Required]
+  
+     [Required(ErrorMessage = "Country is required")]
     public string Country { get; set; }
-    [Required]
+  
+    [Required(ErrorMessage = "Company is required")]
     public string Company { get; set; }
+  
+    [Required(ErrorMessage = "PayPal Email is required")]
     [DataType(DataType.EmailAddress)]
-    [Required]
+    [Display(Name = "PayPal Email")]
     public string PayPalEmail { get; set; }
 
     public UserTypes UserTypes { get; set; }

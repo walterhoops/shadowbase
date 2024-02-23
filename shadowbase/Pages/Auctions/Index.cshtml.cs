@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using shadowbase.Data;
@@ -27,11 +28,13 @@ namespace shadowbase.Pages.Auctions
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
+
         public PaginatedList<AuctionData> StudAuctionDataents { get; set; }
         public PaginatedList<AuctionData> AuctionData { get; private set; }
         public async Task OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
+
             CurrentSort = sortOrder;
             NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             DateSort = sortOrder == "Date" ? "date_desc" : "Date";

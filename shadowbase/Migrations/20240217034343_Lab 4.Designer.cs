@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using shadowbase.Data;
 
@@ -11,9 +12,11 @@ using shadowbase.Data;
 namespace shadowbase.Migrations
 {
     [DbContext(typeof(shadowbaseContext))]
-    partial class shadowbaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240217034343_Lab 4")]
+    partial class Lab4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,96 +24,6 @@ namespace shadowbase.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("AuctionBidDataAuctionData", b =>
-                {
-                    b.Property<int>("AuctionBidDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AuctionDataId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuctionBidDataId", "AuctionDataId");
-
-                    b.HasIndex("AuctionDataId");
-
-                    b.ToTable("AuctionBidDataAuctionData");
-                });
-
-            modelBuilder.Entity("AuctionBidDataUserData", b =>
-                {
-                    b.Property<int>("AuctionBidDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserDataId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuctionBidDataId", "UserDataId");
-
-                    b.HasIndex("UserDataId");
-
-                    b.ToTable("AuctionBidDataUserData");
-                });
-
-            modelBuilder.Entity("AuctionDataClientData", b =>
-                {
-                    b.Property<int>("AuctionDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClientDataId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuctionDataId", "ClientDataId");
-
-                    b.HasIndex("ClientDataId");
-
-                    b.ToTable("AuctionDataClientData");
-                });
-
-            modelBuilder.Entity("AuctionDataStatusIDs", b =>
-                {
-                    b.Property<int>("AuctionDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StatusIDsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuctionDataId", "StatusIDsId");
-
-                    b.HasIndex("StatusIDsId");
-
-                    b.ToTable("AuctionDataStatusIDs");
-                });
-
-            modelBuilder.Entity("AuctionDataUserData", b =>
-                {
-                    b.Property<int>("AuctionDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserDataId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuctionDataId", "UserDataId");
-
-                    b.HasIndex("UserDataId");
-
-                    b.ToTable("AuctionDataUserData");
-                });
-
-            modelBuilder.Entity("LicenseDataUserData", b =>
-                {
-                    b.Property<int>("LicenseDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserDataId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LicenseDataId", "UserDataId");
-
-                    b.HasIndex("UserDataId");
-
-                    b.ToTable("LicenseDataUserData");
-                });
 
             modelBuilder.Entity("shadowbase.Models.AuctionBidData", b =>
                 {
@@ -131,7 +44,7 @@ namespace shadowbase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuctionBidData", (string)null);
+                    b.ToTable("AuctionBidData");
                 });
 
             modelBuilder.Entity("shadowbase.Models.AuctionData", b =>
@@ -176,7 +89,7 @@ namespace shadowbase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuctionData", (string)null);
+                    b.ToTable("AuctionData");
                 });
 
             modelBuilder.Entity("shadowbase.Models.ClientData", b =>
@@ -205,7 +118,7 @@ namespace shadowbase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ClientData", (string)null);
+                    b.ToTable("ClientData");
                 });
 
             modelBuilder.Entity("shadowbase.Models.LicenseData", b =>
@@ -233,7 +146,7 @@ namespace shadowbase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LicenseData", (string)null);
+                    b.ToTable("LicenseData");
                 });
 
             modelBuilder.Entity("shadowbase.Models.StatusIDs", b =>
@@ -248,12 +161,13 @@ namespace shadowbase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StatusID")
-                        .HasColumnType("int");
+                    b.Property<string>("StatusID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("StatusIDs", (string)null);
+                    b.ToTable("StatusIDs");
                 });
 
             modelBuilder.Entity("shadowbase.Models.UserData", b =>
@@ -315,18 +229,13 @@ namespace shadowbase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserTypesId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserTypesId");
-
-                    b.ToTable("UserData", (string)null);
+                    b.ToTable("UserData");
                 });
 
             modelBuilder.Entity("shadowbase.Models.UserTypes", b =>
@@ -349,113 +258,7 @@ namespace shadowbase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserTypes", (string)null);
-                });
-
-            modelBuilder.Entity("AuctionBidDataAuctionData", b =>
-                {
-                    b.HasOne("shadowbase.Models.AuctionBidData", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionBidDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("shadowbase.Models.AuctionData", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AuctionBidDataUserData", b =>
-                {
-                    b.HasOne("shadowbase.Models.AuctionBidData", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionBidDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("shadowbase.Models.UserData", null)
-                        .WithMany()
-                        .HasForeignKey("UserDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AuctionDataClientData", b =>
-                {
-                    b.HasOne("shadowbase.Models.AuctionData", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("shadowbase.Models.ClientData", null)
-                        .WithMany()
-                        .HasForeignKey("ClientDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AuctionDataStatusIDs", b =>
-                {
-                    b.HasOne("shadowbase.Models.AuctionData", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("shadowbase.Models.StatusIDs", null)
-                        .WithMany()
-                        .HasForeignKey("StatusIDsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AuctionDataUserData", b =>
-                {
-                    b.HasOne("shadowbase.Models.AuctionData", null)
-                        .WithMany()
-                        .HasForeignKey("AuctionDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("shadowbase.Models.UserData", null)
-                        .WithMany()
-                        .HasForeignKey("UserDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LicenseDataUserData", b =>
-                {
-                    b.HasOne("shadowbase.Models.LicenseData", null)
-                        .WithMany()
-                        .HasForeignKey("LicenseDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("shadowbase.Models.UserData", null)
-                        .WithMany()
-                        .HasForeignKey("UserDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("shadowbase.Models.UserData", b =>
-                {
-                    b.HasOne("shadowbase.Models.UserTypes", "UserTypes")
-                        .WithMany("UserData")
-                        .HasForeignKey("UserTypesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserTypes");
-                });
-
-            modelBuilder.Entity("shadowbase.Models.UserTypes", b =>
-                {
-                    b.Navigation("UserData");
+                    b.ToTable("UserTypes");
                 });
 #pragma warning restore 612, 618
         }
