@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int?}"
 @model shadowbase.Pages.Users.DetailsModel
 
 @{
@@ -94,6 +94,46 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UserData.PayPalEmail)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.LicenseData)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>UserId</th>
+
+                </tr>
+                @foreach (var item in Model.UserData.LicenseData)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserID)
+                        </td>
+
+                    </tr>
+                }
+            </table>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.AuctionData)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>UserId</th>
+
+                </tr>
+                @foreach (var item in Model.UserData.AuctionData)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserID)
+                        </td>
+
+                    </tr>
+                }
+            </table>
         </dd>
     </dl>
 </div>

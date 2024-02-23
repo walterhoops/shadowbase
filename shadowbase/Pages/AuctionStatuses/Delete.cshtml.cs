@@ -12,52 +12,71 @@ namespace shadowbase.Pages.AuctionStatuses
 {
     public class DeleteModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbaseContext _context;
+        private readonly ILogger<DeleteModel> _logger;
 
-        public DeleteModel(shadowbase.Data.shadowbaseContext context)
+        public DeleteModel(shadowbaseContext context,
+                           ILogger<DeleteModel> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [BindProperty]
-      public StatusIDs StatusIDs { get; set; } = default!;
+        public StatusIDs StatusIDs { get; set; }
+        public string ErrorMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
         {
-            if (id == null || _context.StatusIDs == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var statusids = await _context.StatusIDs.FirstOrDefaultAsync(m => m.Id == id);
+            StatusIDs = await _context.StatusIDs
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (statusids == null)
+            if (StatusIDs == null)
             {
                 return NotFound();
             }
-            else 
+
+            if (saveChangesError.GetValueOrDefault())
             {
-                StatusIDs = statusids;
+                ErrorMessage = String.Format("Delete {ID} failed. Try again", id);
             }
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.StatusIDs == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            var statusids = await _context.StatusIDs.FindAsync(id);
 
-            if (statusids != null)
+            var StatusIDs = await _context.StatusIDs.FindAsync(id);
+
+            if (StatusIDs == null)
             {
-                StatusIDs = statusids;
-                _context.StatusIDs.Remove(StatusIDs);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
 
-            return RedirectToPage("./Index");
+            try
+            {
+                _context.StatusIDs.Remove(StatusIDs);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, ErrorMessage);
+
+                return RedirectToAction("./Delete",
+                                     new { id, saveChangesError = true });
+            }
         }
     }
 }

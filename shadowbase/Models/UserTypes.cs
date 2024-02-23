@@ -13,5 +13,9 @@ public class UserTypes
     [Display(Name = "Type Description")]
     [StringLength(100, ErrorMessage = "Type Description cannot exceed 100 characters")]
     [DataType(DataType.Text)]
-    public string TypeDescription { get; set; }
+
+    public string? TypeDescription { get; set; }
+
+    public ICollection<UserData> UserData { get; set; }
+
 }

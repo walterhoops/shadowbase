@@ -28,15 +28,18 @@ namespace shadowbase.Pages.Users
                 return NotFound();
             }
 
-            var userdata = await _context.UserData.FirstOrDefaultAsync(m => m.Id == id);
-            if (userdata == null)
+            UserData = await _context.UserData
+        .Include(s => s.AuctionData)
+        .ThenInclude(a => a.AuctionBidData)
+        .Include(u => u.UserTypes)
+        .Include(u => u.LicenseData)
+        .AsNoTracking()
+        .FirstOrDefaultAsync(m => m.Id == id);
+            if (UserData == null)
             {
                 return NotFound();
             }
-            else 
-            {
-                UserData = userdata;
-            }
+            
             return Page();
         }
     }

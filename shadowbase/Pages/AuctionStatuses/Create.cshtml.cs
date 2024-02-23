@@ -26,20 +26,24 @@ namespace shadowbase.Pages.AuctionStatuses
 
         [BindProperty]
         public StatusIDs StatusIDs { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.StatusIDs == null || StatusIDs == null)
+            var emptyStatusIDs = new StatusIDs();
+
+            if (await TryUpdateModelAsync<StatusIDs>(
+                emptyStatusIDs,
+                "status",   // Prefix for form value.
+                s => s.StatusID, s => s.StatusDescription))
             {
-                return Page();
+                _context.StatusIDs.Add(emptyStatusIDs);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
 
-            _context.StatusIDs.Add(StatusIDs);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

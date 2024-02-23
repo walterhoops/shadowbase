@@ -1,4 +1,6 @@
-﻿@page "{id:int}"
+
+﻿@page "{id:int?}"
+
 @model shadowbase.Pages.Clients.DeleteModel
 
 @{
@@ -6,7 +8,7 @@
 }
 
 <h1>Delete</h1>
-
+<p class="text-danger">@Model.ErrorMessage</p>
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>ClientData</h4>

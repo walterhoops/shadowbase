@@ -12,52 +12,71 @@ namespace shadowbase.Pages.UserTypeDescriptions
 {
     public class DeleteModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbaseContext _context;
+        private readonly ILogger<DeleteModel> _logger;
 
-        public DeleteModel(shadowbase.Data.shadowbaseContext context)
+        public DeleteModel(shadowbaseContext context,
+                           ILogger<DeleteModel> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [BindProperty]
-      public UserTypes UserTypes { get; set; } = default!;
+        public UserTypes UserTypes { get; set; }
+        public string ErrorMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
         {
-            if (id == null || _context.UserTypes == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var usertypes = await _context.UserTypes.FirstOrDefaultAsync(m => m.Id == id);
+            UserTypes = await _context.UserTypes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (usertypes == null)
+            if (UserTypes == null)
             {
                 return NotFound();
             }
-            else 
+
+            if (saveChangesError.GetValueOrDefault())
             {
-                UserTypes = usertypes;
+                ErrorMessage = String.Format("Delete {ID} failed. Try again", id);
             }
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.UserTypes == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            var usertypes = await _context.UserTypes.FindAsync(id);
 
-            if (usertypes != null)
+            var UserTypes = await _context.UserTypes.FindAsync(id);
+
+            if (UserTypes == null)
             {
-                UserTypes = usertypes;
-                _context.UserTypes.Remove(UserTypes);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
 
-            return RedirectToPage("./Index");
+            try
+            {
+                _context.UserTypes.Remove(UserTypes);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, ErrorMessage);
+
+                return RedirectToAction("./Delete",
+                                     new { id, saveChangesError = true });
+            }
         }
     }
 }

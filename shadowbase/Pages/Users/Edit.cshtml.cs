@@ -25,48 +25,39 @@ namespace shadowbase.Pages.Users
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.UserData == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var userdata =  await _context.UserData.FirstOrDefaultAsync(m => m.Id == id);
-            if (userdata == null)
+            UserData = await _context.UserData.FindAsync(id);
+
+            if (UserData == null)
             {
                 return NotFound();
             }
-            UserData = userdata;
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
+            var UserDataToUpdate = await _context.UserData.FindAsync(id);
+
+            if (UserDataToUpdate == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(UserData).State = EntityState.Modified;
-
-            try
+            if (await TryUpdateModelAsync<UserData>(
+                UserDataToUpdate,
+                "user",
+                s => s.TypeID, s => s.Username, s => s.Password, s => s.FirstName, s => s.LastName, s => s.DOB, s => s.Phone, s => s.Email, s => s.Address, s => s.City, s => s.PostalCode, s => s.Country, s => s.Company, s => s.PayPalEmail))
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserDataExists(UserData.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool UserDataExists(int id)

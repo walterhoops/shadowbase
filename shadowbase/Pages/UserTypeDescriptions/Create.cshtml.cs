@@ -26,20 +26,24 @@ namespace shadowbase.Pages.UserTypeDescriptions
 
         [BindProperty]
         public UserTypes UserTypes { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.UserTypes == null || UserTypes == null)
+            var emptyUserTypes = new UserTypes();
+
+            if (await TryUpdateModelAsync<UserTypes>(
+                emptyUserTypes,
+                "user",   // Prefix for form value.
+                s => s.TypeID, s => s.TypeDescription))
             {
-                return Page();
+                _context.UserTypes.Add(emptyUserTypes);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
 
-            _context.UserTypes.Add(UserTypes);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

@@ -25,48 +25,39 @@ namespace shadowbase.Pages.AuctionStatuses
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.StatusIDs == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var statusids =  await _context.StatusIDs.FirstOrDefaultAsync(m => m.Id == id);
-            if (statusids == null)
+            StatusIDs = await _context.StatusIDs.FindAsync(id);
+
+            if (StatusIDs == null)
             {
                 return NotFound();
             }
-            StatusIDs = statusids;
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
+            var StatusIDsToUpdate = await _context.StatusIDs.FindAsync(id);
+
+            if (StatusIDsToUpdate == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(StatusIDs).State = EntityState.Modified;
-
-            try
+            if (await TryUpdateModelAsync<StatusIDs>(
+                StatusIDsToUpdate,
+                "status",
+                s => s.StatusID, s => s.StatusDescription))
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StatusIDsExists(StatusIDs.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool StatusIDsExists(int id)

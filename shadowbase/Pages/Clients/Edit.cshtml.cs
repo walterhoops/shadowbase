@@ -25,48 +25,39 @@ namespace shadowbase.Pages.Clients
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.ClientData == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var clientdata =  await _context.ClientData.FirstOrDefaultAsync(m => m.Id == id);
-            if (clientdata == null)
+            ClientData = await _context.ClientData.FindAsync(id);
+
+            if (ClientData == null)
             {
                 return NotFound();
             }
-            ClientData = clientdata;
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
+            var ClientDataToUpdate = await _context.ClientData.FindAsync(id);
+
+            if (ClientDataToUpdate == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(ClientData).State = EntityState.Modified;
-
-            try
+            if (await TryUpdateModelAsync<ClientData>(
+                ClientDataToUpdate,
+                "client",
+                s => s.FirstName, s => s.LastName, s => s.Email, s => s.Phone))
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClientDataExists(ClientData.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool ClientDataExists(int id)

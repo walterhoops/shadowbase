@@ -26,20 +26,24 @@ namespace shadowbase.Pages.Auctions
 
         [BindProperty]
         public AuctionData AuctionData { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.AuctionData == null || AuctionData == null)
+            var emptyAuctionData = new AuctionData();
+
+            if (await TryUpdateModelAsync<AuctionData>(
+                emptyAuctionData,
+                "Auction",   // Prefix for form value.
+                s => s.UserID, s => s.ClientID, s => s.StatusID, s => s.Type, s => s.CreationDate, s => s.ExpiryDate, s => s.HomeBudget, s => s.BidID, s => s.BidLimit))
             {
-                return Page();
+                _context.AuctionData.Add(emptyAuctionData);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
 
-            _context.AuctionData.Add(AuctionData);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

@@ -25,48 +25,39 @@ namespace shadowbase.Pages.UserTypeDescriptions
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.UserTypes == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var usertypes =  await _context.UserTypes.FirstOrDefaultAsync(m => m.Id == id);
-            if (usertypes == null)
+            UserTypes = await _context.UserTypes.FindAsync(id);
+
+            if (UserTypes == null)
             {
                 return NotFound();
             }
-            UserTypes = usertypes;
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
+            var UserTypesToUpdate = await _context.UserTypes.FindAsync(id);
+
+            if (UserTypesToUpdate == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(UserTypes).State = EntityState.Modified;
-
-            try
+            if (await TryUpdateModelAsync<UserTypes>(
+                UserTypesToUpdate,
+                "userType",
+                s => s.TypeID, s => s.TypeDescription))
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserTypesExists(UserTypes.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool UserTypesExists(int id)

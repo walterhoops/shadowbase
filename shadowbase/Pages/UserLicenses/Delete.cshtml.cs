@@ -12,52 +12,71 @@ namespace shadowbase.Pages.UserLicenses
 {
     public class DeleteModel : PageModel
     {
-        private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly shadowbaseContext _context;
+        private readonly ILogger<DeleteModel> _logger;
 
-        public DeleteModel(shadowbase.Data.shadowbaseContext context)
+        public DeleteModel(shadowbaseContext context,
+                           ILogger<DeleteModel> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [BindProperty]
-      public LicenseData LicenseData { get; set; } = default!;
+        public LicenseData LicenseData { get; set; }
+        public string ErrorMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
         {
-            if (id == null || _context.LicenseData == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var licensedata = await _context.LicenseData.FirstOrDefaultAsync(m => m.Id == id);
+            LicenseData = await _context.LicenseData
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (licensedata == null)
+            if (LicenseData == null)
             {
                 return NotFound();
             }
-            else 
+
+            if (saveChangesError.GetValueOrDefault())
             {
-                LicenseData = licensedata;
+                ErrorMessage = String.Format("Delete {ID} failed. Try again", id);
             }
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.LicenseData == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            var licensedata = await _context.LicenseData.FindAsync(id);
 
-            if (licensedata != null)
+            var LicenseData = await _context.LicenseData.FindAsync(id);
+
+            if (LicenseData == null)
             {
-                LicenseData = licensedata;
-                _context.LicenseData.Remove(LicenseData);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
 
-            return RedirectToPage("./Index");
+            try
+            {
+                _context.LicenseData.Remove(LicenseData);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, ErrorMessage);
+
+                return RedirectToAction("./Delete",
+                                     new { id, saveChangesError = true });
+            }
         }
     }
 }

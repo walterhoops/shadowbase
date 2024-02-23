@@ -19,14 +19,35 @@ namespace shadowbase.Pages.UserLicenses
             _context = context;
         }
 
-        public IList<LicenseData> LicenseData { get;set; } = default!;
+        public string NameSort { get; set; }
+        public string DateSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
 
-        public async Task OnGetAsync()
+        public IList<LicenseData> StudAuctionDataents { get; set; }
+        public List<LicenseData> LicenseData { get; private set; }
+
+        public async Task OnGetAsync(string sortOrder)
         {
-            if (_context.LicenseData != null)
+            // using System;
+            NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            DateSort = sortOrder == "Date" ? "date_desc" : "Date";
+
+            IQueryable<LicenseData> license = from s in _context.LicenseData
+                                             select s;
+
+            switch (sortOrder)
             {
-                LicenseData = await _context.LicenseData.ToListAsync();
+                case "user":
+                    license = license.OrderByDescending(s => s.UserID);
+                    break;
+                
+                default:
+                    license = license.OrderBy(s => s.UserID);
+                    break;
             }
+
+            LicenseData = await license.AsNoTracking().ToListAsync();
         }
     }
 }

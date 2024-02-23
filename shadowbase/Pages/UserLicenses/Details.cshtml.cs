@@ -28,15 +28,16 @@ namespace shadowbase.Pages.UserLicenses
                 return NotFound();
             }
 
-            var licensedata = await _context.LicenseData.FirstOrDefaultAsync(m => m.Id == id);
-            if (licensedata == null)
+            LicenseData = await _context.LicenseData
+        .Include(l => l.UserData)
+        
+        .AsNoTracking()
+        .FirstOrDefaultAsync(m => m.Id == id);
+            if (LicenseData == null)
             {
                 return NotFound();
             }
-            else 
-            {
-                LicenseData = licensedata;
-            }
+            
             return Page();
         }
     }

@@ -1,4 +1,6 @@
-﻿@page "{id:int}"
+
+﻿@page "{id:int?}"
+
 @model shadowbase.Pages.Auctions.DetailsModel
 
 @{
@@ -64,6 +66,82 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AuctionData.BidLimit)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AuctionData.UserData)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>UserId</th>
+                    
+                </tr>
+                @foreach (var item in Model.AuctionData.UserData)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+        <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AuctionData.AuctionBidData)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>BidId</th>
+
+                </tr>
+                    @foreach (var item in Model.AuctionData.AuctionBidData)
+                    {
+                    <tr>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                    </tr>
+                    }
+            </table>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AuctionData.StatusIDs)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>StatusId</th>
+
+                </tr>
+                @foreach (var item in Model.AuctionData.StatusIDs)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AuctionData.ClientData)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>ClientId</th>
+
+                </tr>
+                @foreach (var item in Model.AuctionData.ClientData)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                    </tr>
+                }
+            </table>
         </dd>
     </dl>
 </div>

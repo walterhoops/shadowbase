@@ -14,19 +14,27 @@ namespace shadowbase.Data
         {
         }
 
-        public DbSet<shadowbase.Models.ClientData> ClientData { get; set; } = default!;
 
-        public DbSet<shadowbase.Models.AuctionData> AuctionData { get; set; } = default!;
+        public DbSet<shadowbase.Models.ClientData> ClientData { get; set; }
+        public DbSet<shadowbase.Models.AuctionData> AuctionData { get; set; }
+        public DbSet<shadowbase.Models.UserData> UserData { get; set; }
+        public DbSet<shadowbase.Models.LicenseData> LicenseData { get; set; }
+        public DbSet<shadowbase.Models.AuctionBidData> AuctionBidData { get; set; }
+        public DbSet<shadowbase.Models.StatusIDs> StatusIDs { get; set; }
+        public DbSet<shadowbase.Models.UserTypes> UserTypes { get; set; }
 
-        public DbSet<shadowbase.Models.UserData> UserData { get; set; } = default!;
 
-        public DbSet<shadowbase.Models.LicenseData> LicenseData { get; set; } = default!;
-
-        public DbSet<shadowbase.Models.AuctionBidData> AuctionBidData { get; set; } = default!;
-
-        public DbSet<shadowbase.Models.StatusIDs> StatusIDs { get; set; } = default!;
-
-        public DbSet<shadowbase.Models.UserTypes> UserTypes { get; set; } = default!;
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ClientData>().ToTable("ClientData");
+            modelBuilder.Entity<AuctionData>().ToTable("AuctionData");
+            modelBuilder.Entity<UserData>().ToTable("UserData");
+            modelBuilder.Entity<LicenseData>().ToTable("LicenseData");
+            modelBuilder.Entity<AuctionBidData>().ToTable("AuctionBidData");
+            modelBuilder.Entity<StatusIDs>().ToTable("StatusIDs");
+            modelBuilder.Entity<UserTypes>().ToTable("UserTypes");
+            
+        }
     }
    
 }

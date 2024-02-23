@@ -26,20 +26,24 @@ namespace shadowbase.Pages.Clients
 
         [BindProperty]
         public ClientData ClientData { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.ClientData == null || ClientData == null)
+            var emptyClientData = new ClientData();
+
+            if (await TryUpdateModelAsync<ClientData>(
+                emptyClientData,
+                "client",   // Prefix for form value.
+                s => s.FirstName, s => s.LastName, s => s.Email, s => s.Phone))
             {
-                return Page();
+                _context.ClientData.Add(emptyClientData);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
 
-            _context.ClientData.Add(ClientData);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

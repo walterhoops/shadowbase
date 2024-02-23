@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int?}"
 @model shadowbase.Pages.AuctionBids.DetailsModel
 
 @{
@@ -28,6 +28,45 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AuctionBidData.BidDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AuctionBidData.UserData)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>User Id</th>
+                    
+                </tr>
+                @foreach (var item in Model.AuctionBidData.UserData)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AuctionBidData.AuctionData)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>BidID</th>
+                    
+                </tr>
+                @foreach (var item in Model.AuctionBidData.AuctionData)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BidID)
+                        </td>
+                        
+                    </tr>
+                }
+            </table>
         </dd>
     </dl>
 </div>

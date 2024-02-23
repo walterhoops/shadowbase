@@ -2,10 +2,10 @@
 @model shadowbase.Pages.AuctionBids.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "AuctionBidData";
 }
 
-<h1>Index</h1>
+<h2>AuctionBidData</h2>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -14,19 +14,26 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AuctionBidData[0].UserID)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.AuctionBidData[0].UserID)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AuctionBidData[0].BidAmount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AuctionBidData[0].BidDate)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.AuctionBidData[0].BidDate)
+                </a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.AuctionBidData) {
+        @foreach (var item in Model.AuctionBidData)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.UserID)

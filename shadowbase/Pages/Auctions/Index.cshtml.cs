@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using shadowbase.Data;
 using shadowbase.Models;
 
@@ -14,45 +15,70 @@ namespace shadowbase.Pages.Auctions
     public class IndexModel : PageModel
     {
         private readonly shadowbase.Data.shadowbaseContext _context;
+        private readonly IConfiguration Configuration;
 
-        public IndexModel(shadowbase.Data.shadowbaseContext context)
+        public IndexModel(shadowbase.Data.shadowbaseContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
-        public IList<AuctionData> AuctionData { get;set; } = default!;
-        [BindProperty(SupportsGet = true)]
-        public string? SearchString { get; set; }
-
-        public SelectList? Status { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public string? AuctionStatus { get; set; }
+        public string NameSort { get; set; }
+        public string DateSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
 
 
-        public async Task OnGetAsync()
+        public PaginatedList<AuctionData> StudAuctionDataents { get; set; }
+        public PaginatedList<AuctionData> AuctionData { get; private set; }
+        public async Task OnGetAsync(string sortOrder,
+            string currentFilter, string searchString, int? pageIndex)
         {
-            // Use LINQ to get list of genres.
-            IQueryable<string> statusQuery = from m in _context.AuctionData
-                                            orderby m.StatusID
-                                            select m.StatusID;
 
-            var auctions = from m in _context.AuctionData
-                         select m;
-
-            if (!string.IsNullOrEmpty(SearchString))
+            CurrentSort = sortOrder;
+            NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            DateSort = sortOrder == "Date" ? "date_desc" : "Date";
+            if (searchString != null)
             {
-                auctions = auctions.Where(s => s.StatusID.Contains(SearchString));
+                pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+           
+
+            CurrentFilter = searchString;
+
+            IQueryable<AuctionData> auction = from s in _context.AuctionData
+                                                 select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                auction = auction.Where(s => s.Type.Contains(searchString)
+                                       || s.StatusID.Contains(searchString));
             }
 
-            if (!string.IsNullOrEmpty(AuctionStatus))
+
+            switch (sortOrder)
             {
-                auctions = auctions.Where(x => x.StatusID == AuctionStatus);
+                case "type":
+                    auction = auction.OrderByDescending(s => s.Type);
+                    break;
+                case "Date":
+                    auction = auction.OrderBy(s => s.CreationDate);
+                    break;
+                case "date_desc":
+                    auction = auction.OrderByDescending(s => s.CreationDate);
+                    break;
+                default:
+                    auction = auction.OrderBy(s => s.Type);
+                    break;
             }
-            Status = new SelectList(await statusQuery.Distinct().ToListAsync());
-            AuctionData = await auctions.ToListAsync();
-        }
 
-
+                var pageSize = Configuration.GetValue("PageSize", 4);
+                AuctionData = await PaginatedList<AuctionData>.CreateAsync(
+                    auction.AsNoTracking(), pageIndex ?? 1, pageSize);
+            }
     }
 }

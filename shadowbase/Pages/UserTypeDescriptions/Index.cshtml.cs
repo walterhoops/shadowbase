@@ -19,14 +19,40 @@ namespace shadowbase.Pages.UserTypeDescriptions
             _context = context;
         }
 
-        public IList<UserTypes> UserTypes { get;set; } = default!;
+        public string NameSort { get; set; }
+        public string DateSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
 
-        public async Task OnGetAsync()
+        public IList<UserTypes> StudAuctionDataents { get; set; }
+        public List<UserTypes> UserTypes { get; private set; }
+
+        public async Task OnGetAsync(string sortOrder)
         {
-            if (_context.UserTypes != null)
+            // using System;
+            NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            DateSort = sortOrder == "Date" ? "date_desc" : "Date";
+
+            IQueryable<UserTypes> Type = from s in _context.UserTypes
+                                           select s;
+
+            switch (sortOrder)
             {
-                UserTypes = await _context.UserTypes.ToListAsync();
+                case "type":
+                    Type = Type.OrderByDescending(s => s.TypeID);
+                    break;
+                case "typeDescription":
+                    Type = Type.OrderBy(s => s.TypeDescription);
+                    break;
+                case "typeDescription_desc":
+                    Type = Type.OrderByDescending(s => s.TypeDescription);
+                    break;
+                default:
+                    Type = Type.OrderBy(s => s.TypeID);
+                    break;
             }
+
+            UserTypes = await Type.AsNoTracking().ToListAsync();
         }
     }
 }

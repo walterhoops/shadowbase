@@ -26,20 +26,24 @@ namespace shadowbase.Pages.UserLicenses
 
         [BindProperty]
         public LicenseData LicenseData { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.LicenseData == null || LicenseData == null)
+            var emptyLicenseData = new LicenseData();
+
+            if (await TryUpdateModelAsync<LicenseData>(
+                emptyLicenseData,
+                "license",   // Prefix for form value.
+                s => s.UserID, s => s.reLicense, s => s.mbLicense, s => s.hiLicense))
             {
-                return Page();
+                _context.LicenseData.Add(emptyLicenseData);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
 
-            _context.LicenseData.Add(LicenseData);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

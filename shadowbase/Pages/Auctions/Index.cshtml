@@ -2,23 +2,25 @@
 @model shadowbase.Pages.Auctions.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "AuctionData";
+
 }
 
-<h1>Index</h1>
+<h2>AuctionData</h2>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
 
-<form>
-    <p>
-        <select asp-for="AuctionStatus" asp-items="Model.Status">
-            <option value="">All</option>
-        </select>
-        Title: <input type="text" asp-for="SearchString" />
-        <input type="submit" value="Filter" />
-    </p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
 </form>
 
 <table class="table">
@@ -33,12 +35,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.AuctionData[0].StatusID)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AuctionData[0].Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AuctionData[0].CreationDate)
-            </th>
+            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+               asp-route-currentFilter="@Model.CurrentFilter">
+                <th>
+                    @Html.DisplayNameFor(model => model.AuctionData[0].Type)
+                </th>
+            </a>
+            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+               asp-route-currentFilter="@Model.CurrentFilter">
+                <th>
+                    @Html.DisplayNameFor(model => model.AuctionData[0].CreationDate)
+                </th>
+            </a>
             <th>
                 @Html.DisplayNameFor(model => model.AuctionData[0].ExpiryDate)
             </th>
@@ -52,10 +60,12 @@
                 @Html.DisplayNameFor(model => model.AuctionData[0].BidLimit)
             </th>
             <th></th>
+           
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.AuctionData) {
+        @foreach (var item in Model.AuctionData)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.UserID)
@@ -93,3 +103,22 @@
 }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.AuctionData.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.AuctionData.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.AuctionData.PageIndex - 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.AuctionData.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

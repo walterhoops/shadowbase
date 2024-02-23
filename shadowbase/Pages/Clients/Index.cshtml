@@ -2,26 +2,42 @@
 @model shadowbase.Pages.Clients.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ClientData";
 }
 
-<h1>Index</h1>
+<h2>ClientData</h2>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ClientData[0].FirstName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClientData[0].LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClientData[0].Email)
-            </th>
+            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+               asp-route-currentFilter="@Model.CurrentFilter">
+                <th>
+                    @Html.DisplayNameFor(model => model.ClientData[0].LastName)
+                </th>
+            </a>
+            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+               asp-route-currentFilter="@Model.CurrentFilter">
+                <th>
+                    @Html.DisplayNameFor(model => model.ClientData[0].Email)
+                </th>
+            </a>
             <th>
                 @Html.DisplayNameFor(model => model.ClientData[0].Phone)
             </th>
@@ -52,3 +68,22 @@
 }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.ClientData.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.ClientData.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.ClientData.PageIndex - 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.ClientData.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

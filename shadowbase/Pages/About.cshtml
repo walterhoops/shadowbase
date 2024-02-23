@@ -1,0 +1,30 @@
+﻿@page
+@model shadowbase.Pages.AboutModel
+@{
+    ViewData["Title"] = "Student Body Statistics";
+}
+
+<h2>Student Body Statistics</h2>
+
+<table>
+    <tr>
+        <th>
+            Enrollment Date
+        </th>
+        <th>
+            Students
+        </th>
+    </tr>
+
+    @foreach (var item in Model.AuctionBidData)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BidDate)
+            </td>
+            <td>
+                @item.ClientCount
+            </td>
+        </tr>
+    }
+</table>
