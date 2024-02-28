@@ -10,7 +10,8 @@ namespace shadowbase.Models
         [Key]
         public int AuctionTypeID { get; set; }
 
-        [Required]
+        [Required,
+            StringLength(50)]
         public string AuctionTypeDescription { get; set; }
 
         public ICollection<Auction> Auctions { get; set; }

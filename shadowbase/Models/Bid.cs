@@ -18,13 +18,14 @@ namespace shadowbase.Models
     public int? UserIDFK { get; set; } 
     public User? User { get; set; }
 
+
+    [Range(0,1)]
     [Required]
-    [Column(TypeName = "decimal(2, 2)")]
+    [Column(TypeName = "decimal(3, 2)")]
     public decimal BidAmount { get; set; }
 
     [Required]
     [DataType(DataType.Date)]
     public DateTime BidDate { get; set; }
-
   }
 }

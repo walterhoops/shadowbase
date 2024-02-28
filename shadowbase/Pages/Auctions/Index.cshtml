@@ -14,12 +14,15 @@
 
 <form>
     <p>
-        Auction Type: <select asp-for="AuctionType" asp-items="Model.Types">
+        Listing Type: <select asp-for="AuctionType" asp-items="Model.Types">
             <option value="">All</option>
         </select>
-        @* //TO DO ********************make another select for auction status **************************@
-        Title: <input type="text" asp-for="SearchString" /> 
-        <input type="submit" value="Filter" />
+        Status: <select asp-for="AuctionStatus" asp-items="Model.Statuses">
+            <option value="">All</option>
+            
+        </select>     
+        Auction ID: <input type="text" asp-for="SearchString" /> 
+        <input type="submit" value="Search" />
     </p>
 </form>
 

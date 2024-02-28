@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using shadowbase.Models;
+
+// Creation of Auctions might be failing because of shadowbasecontext and applicationdbcontext 
 
 namespace shadowbase.Data
 {
