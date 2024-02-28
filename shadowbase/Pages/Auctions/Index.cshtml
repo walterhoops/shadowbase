@@ -2,17 +2,33 @@
 @model shadowbase.Pages.Auctions.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Auctions";
 }
 
-<h1>Index</h1>
+<h1>Auctions</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+
+
+<form>
+    <p>
+        Auction Type: <select asp-for="AuctionType" asp-items="Model.Types">
+            <option value="">All</option>
+        </select>
+        @* //TO DO ********************make another select for auction status **************************@
+        Title: <input type="text" asp-for="SearchString" /> 
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Auction[0].AuctionID)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Auction[0].User)
             </th>
@@ -44,10 +60,13 @@
 @foreach (var item in Model.Auction) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Address)
+                @Html.DisplayFor(modelItem => item.AuctionID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Client.Email)
+                @Html.DisplayFor(modelItem => item.User.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.FirstName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AuctionStatus.AuctionStatusDescription)

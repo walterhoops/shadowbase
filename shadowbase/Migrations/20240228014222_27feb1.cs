@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace shadowbase.Migrations
 {
     /// <inheritdoc />
-    public partial class feb22_1 : Migration
+    public partial class _27feb1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -109,7 +109,7 @@ namespace shadowbase.Migrations
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HomeBudget = table.Column<int>(type: "int", nullable: false),
-                    BidLimit = table.Column<decimal>(type: "decimal(2,2)", nullable: false)
+                    BidLimit = table.Column<decimal>(type: "decimal(3,2)", nullable: false)
                 },
                 constraints: table =>
                 {

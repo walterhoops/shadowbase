@@ -37,7 +37,7 @@ namespace shadowbase.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("BidLimit")
-                        .HasColumnType("decimal(2, 2)");
+                        .HasColumnType("decimal(3, 2)");
 
                     b.Property<int>("ClientIDFK")
                         .HasColumnType("int");

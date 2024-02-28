@@ -12,8 +12,8 @@ using shadowbase.Data;
 namespace shadowbase.Migrations
 {
     [DbContext(typeof(ShadowbaseContext))]
-    [Migration("20240223075428_feb22_1")]
-    partial class feb22_1
+    [Migration("20240228014222_27feb1")]
+    partial class _27feb1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,7 @@ namespace shadowbase.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("BidLimit")
-                        .HasColumnType("decimal(2, 2)");
+                        .HasColumnType("decimal(3, 2)");
 
                     b.Property<int>("ClientIDFK")
                         .HasColumnType("int");
