@@ -28,6 +28,8 @@ namespace shadowbase.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder); 
+            // Above added Feb 28, if this breaks anything, remove it? - Walter
             modelBuilder.Entity<Client>().ToTable("Client");
             modelBuilder.Entity<Auction>().ToTable("Auction");
             modelBuilder.Entity<User>().ToTable("User");

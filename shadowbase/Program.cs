@@ -19,6 +19,19 @@ builder.Services.AddDbContext<ShadowbaseContext>(options =>
 
 var app = builder.Build();
 
+// Added Feb 28, refer to Lab 5 for more information
+if (app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+else
+{
+    app.UseDeveloperExceptionPage();
+    app.UseMigrationsEndPoint();
+}
+// End of added Feb 28
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -29,16 +42,18 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseMigrationsEndPoint();
-}
-else
-{
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+// Removed Feb 28, refer to Lab 5 for more information
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseMigrationsEndPoint();
+//}
+//else
+//{
+//    app.UseExceptionHandler("/Error");
+//    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+//    app.UseHsts();
+//}
+// End of removed Feb 28
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -23,7 +23,7 @@ namespace shadowbase.Pages.Auctions
         {
         ViewData["AuctionStatusIDFK"] = new SelectList(_context.AuctionStatuses, "AuctionStatusID", "AuctionStatusDescription");
         ViewData["AuctionTypeIDFK"] = new SelectList(_context.AuctionTypes, "AuctionTypeID", "AuctionTypeDescription");
-        ViewData["ClientIDFK"] = new SelectList(_context.Clients, "ClientID", "Email");
+        ViewData["ClientIDFK"] = new SelectList(_context.Clients, "ClientID", "FirstName");
         ViewData["UserIDFK"] = new SelectList(_context.Users, "UserID", "Username");
             return Page();
         }

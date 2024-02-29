@@ -1,4 +1,4 @@
-﻿@page "{id:int}"
+﻿@page "{id:int?}"
 @model shadowbase.Pages.Auctions.DeleteModel
 
 @{
@@ -16,13 +16,13 @@
             @Html.DisplayNameFor(model => model.Auction.User)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Auction.User.Address)
+            @Html.DisplayFor(model => model.Auction.User.Username)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Auction.Client)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Auction.Client.Email)
+            @Html.DisplayFor(model => model.Auction.Client.FirstName)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Auction.AuctionStatus)
