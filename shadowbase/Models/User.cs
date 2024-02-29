@@ -9,6 +9,7 @@ public class User
 
     [Required]
     [ForeignKey("UserType")]
+    [Display(Name = "Account Type")]
     public int UserTypeIDFK { get; set; }
     public UserType UserType { get; set; }
 
