@@ -19,6 +19,9 @@ namespace shadowbase.Pages.Users
             _context = context;
         }
 
+        // Below underline may be influencing Details.cshtml ability to retrieve
+        // and display the [Display(Name = "Account Type")] attribute in the
+        // details page.
       public User User { get; set; } = default!; 
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -28,15 +31,23 @@ namespace shadowbase.Pages.Users
                 return NotFound();
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.UserID == id);
-            if (user == null)
+            //var user = await _context.Users.FirstOrDefaultAsync(m => m.UserID == id);
+            
+            User = await _context.Users
+                .Include(u => u.UserType)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.UserID == id);
+
+            if (User == null)
             {
                 return NotFound();
             }
-            else 
-            {
-                User = user;
-            }
+
+            //else 
+            //{
+            //    User = user;
+            //}
+
             return Page();
         }
     }
