@@ -9,6 +9,7 @@ public class UserType
     public int UserTypeID { get; set; }
 
     [Required]
+    [Display(Name = "Account Type")]
     public string UserTypeDescription { get; set; }
 
     public ICollection<User> Users { get; set; }

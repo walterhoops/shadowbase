@@ -4,6 +4,27 @@
 @{
     ViewData["Title"] = "About Shadowbase";
 }
-<h1>@ViewData["Title"]</h1>
+<h2>Auction Statistics</h2>
 
-<p>Use this page to detail your site's about page.</p>
+<table>
+    <tr>
+        <th>
+            Listing Date
+        </th>
+        <th>
+            Auctions Created
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Auction)
+    {
+        <tr>
+            <td>
+            @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+            @item.AuctionCount
+            </td>
+        </tr>
+    }
+</table>

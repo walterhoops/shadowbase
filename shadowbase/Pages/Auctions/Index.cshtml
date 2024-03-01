@@ -5,7 +5,8 @@
     ViewData["Title"] = "Auctions";
 }
 
-<h1>Auctions</h1>
+@* <h1>Auctions</h1> *@
+<h2>Auctions</h2>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -22,7 +23,7 @@
             
         </select>     
         Auction ID: <input type="text" asp-for="SearchString" /> 
-        <input type="submit" value="Search" />
+        <input type="submit" value="Search" class="btn btn-primary" />
     </p>
 </form>
 
@@ -30,29 +31,76 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Auction[0].AuctionID)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.AuctionSort"
+                    asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Auction[0].AuctionID)    
+                </a>
             </th>
+
+            @* <th>
+                @Html.DisplayNameFor(model => model.Auction[0].AuctionID)
+            </th> *@
+
             <th>
                 @Html.DisplayNameFor(model => model.Auction[0].User)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Auction[0].Client)
             </th>
+
+          @*   <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.StatusSort">
+                    @Html.DisplayNameFor(model => model.Auction[0].AuctionStatus.AuctionStatusDescription)
+                </a>
+            </th> *@
+
             <th>
                 @Html.DisplayNameFor(model => model.Auction[0].AuctionStatus)
             </th>
+
+           @*  <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.TypeSort">
+                    @Html.DisplayNameFor(model => model.Auction[0].AuctionType.AuctionTypeDescription)
+                </a>
+            </th> *@
+
             <th>
                 @Html.DisplayNameFor(model => model.Auction[0].AuctionType)
             </th>
+
             <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.CreationSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Auction[0].CreationDate)
+                </a>
+            </th>
+
+            @* <th>
                 @Html.DisplayNameFor(model => model.Auction[0].CreationDate)
-            </th>
+            </th> *@
+
             <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.ExpirySort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Auction[0].ExpiryDate)
+                </a>
+            </th>
+
+            @* <th>
                 @Html.DisplayNameFor(model => model.Auction[0].ExpiryDate)
-            </th>
+            </th> *@
+
             <th>
-                @Html.DisplayNameFor(model => model.Auction[0].HomeBudget)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.BudgetSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Auction[0].HomeBudget)
+                </a>
             </th>
+            
+           @*  <th>
+                @Html.DisplayNameFor(model => model.Auction[0].HomeBudget)
+            </th> *@
+
             <th>
                 @Html.DisplayNameFor(model => model.Auction[0].BidLimit)
             </th>
@@ -98,3 +146,22 @@
 }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.Auctions.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Auctions.HasNextPage ? "disabled" : "";
+}
+<a asp-page="./Index"
+    asp-route-sortOrder="@Model.CurrentSort"
+    asp-route-pageIndex="@(Model.Auctions.PageIndex -1)"
+    asp-route-currentFilter="@Model.CurrentFilter"
+    class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+    asp-route-sortOrder="@Model.CurrentSort"
+    asp-route-pageIndex="@(Model.Auctions.PageIndex +1)"
+    asp-route-currentFilter="@Model.CurrentFilter"
+    class="btn btn-primary @nextDisabled">
+    Next
+</a>

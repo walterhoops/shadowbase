@@ -6,8 +6,8 @@ namespace shadowbase.Models.SchoolViewModels
     public class EnrollmentDateGroup
     {
         [DataType(DataType.Date)]
-        public DateTime? BidDate { get; set; }
+        public DateTime? CreationDate { get; set; }
 
-        public int ClientCount { get; set; }
+        public int AuctionCount { get; set; }
     }
 }

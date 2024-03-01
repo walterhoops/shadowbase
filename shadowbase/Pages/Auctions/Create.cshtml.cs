@@ -35,15 +35,38 @@ namespace shadowbase.Pages.Auctions
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Auctions == null || Auction == null)
+            // Added Feb 29 - See Lab 6 (Overposting) for details
+
+            var emptyAuction = new Auction();
+
+            if (await TryUpdateModelAsync<Auction>(
+                emptyAuction,
+                "Auction",
+                a => a.AuctionTypeIDFK,
+                a => a.AuctionStatusIDFK,
+                a => a.ClientIDFK,
+                a => a.UserIDFK,
+                a => a.CreationDate,
+                a => a.ExpiryDate,
+                a => a.HomeBudget,
+                a => a.BidLimit))
             {
-                return Page();
+                _context.Auctions.Add(emptyAuction);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
 
-            _context.Auctions.Add(Auction);
-            await _context.SaveChangesAsync();
+            // Removed Feb 29 - See Lab 6 (Overposting) for details
 
-            return RedirectToPage("./Index");
+            //if (!ModelState.IsValid || _context.Auctions == null || Auction == null)
+            //  {
+            //      return Page();
+            //  }
+
+            //_context.Auctions.Add(Auction);
+            //await _context.SaveChangesAsync();
+
+            return Page();
         }
     }
 }

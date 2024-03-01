@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO.Compression;
 namespace shadowbase.Models;
 
 public class User
@@ -24,14 +25,17 @@ public class User
   
     [Required]
     [StringLength(30, MinimumLength = 1)]
+    [Display(Name = "First Name")]
     public string FirstName { get; set; }
 
     [Required]
     [StringLength(30, MinimumLength = 1)]
+    [Display(Name = "Last Name")]
     public string LastName { get; set; }
 
     [Required]
     [DataType(DataType.Date)]
+    [Display(Name = "Date of Birth")]
     public DateTime DOB { get; set; }
 
     [Required]
@@ -51,6 +55,7 @@ public class User
 
     [Required]
     [DataType(DataType.PostalCode)]
+    [Display(Name = "Zip Code")]
     public string PostalCode { get; set; }
 
     [Required]
@@ -63,6 +68,7 @@ public class User
 
     [Required]
     [DataType(DataType.EmailAddress)]
+    [Display(Name ="PayPal Email")]
     public string PayPalEmail { get; set; }
 
     [Required]

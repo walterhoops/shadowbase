@@ -25,52 +25,87 @@ namespace shadowbase.Pages.Auctions
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Auctions == null)
+            if (id == null /*|| _context.Auctions == null*/)
             {
                 return NotFound();
             }
 
-            var auction =  await _context.Auctions.FirstOrDefaultAsync(m => m.AuctionID == id);
-            if (auction == null)
+            //var auction =  await _context.Auctions.FirstOrDefaultAsync(m => m.AuctionID == id);
+
+            Auction = await _context.Auctions.FindAsync(id);
+
+            if (Auction == null)
             {
                 return NotFound();
             }
-            Auction = auction;
+
+
+           Auction = Auction;
            ViewData["AuctionStatusIDFK"] = new SelectList(_context.AuctionStatuses, "AuctionStatusID", "AuctionStatusDescription");
            ViewData["AuctionTypeIDFK"] = new SelectList(_context.AuctionTypes, "AuctionTypeID", "AuctionTypeDescription");
            ViewData["ClientIDFK"] = new SelectList(_context.Clients, "ClientID", "Email");
            ViewData["UserIDFK"] = new SelectList(_context.Users, "UserID", "Username");
-            return Page();
+           
+           return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
+            // Below removed Feb 29 - See Lab 6 (Overposting) for details
+
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
+
+            //_context.Attach(Auction).State = EntityState.Modified;
+
+            //try
+            //{
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!AuctionExists(Auction.AuctionID))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            //return RedirectToPage("./Index");
+
+            // Below added Feb 29 - See Lab 6 (Overposting) for details
+
+            var auctionToUpdate = await _context.Auctions.FindAsync(id);
+
+            if(auctionToUpdate == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(Auction).State = EntityState.Modified;
-
-            try
+            if (await TryUpdateModelAsync<Auction>(
+                auctionToUpdate,
+                "auction",
+                a => a.AuctionTypeIDFK,
+                a => a.AuctionStatusIDFK,
+                a => a.UserIDFK,
+                a => a.ClientIDFK,
+                a => a.CreationDate,
+                a => a.ExpiryDate,
+                a => a.HomeBudget,
+                a => a.BidLimit))
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AuctionExists(Auction.AuctionID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool AuctionExists(int id)
