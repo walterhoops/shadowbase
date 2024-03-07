@@ -33,13 +33,11 @@ namespace shadowbase.Pages.Auctions
         public string CreationSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
-        
+
         public PaginatedList<Auction> Auctions { get; set; }
         // Feb 29 - Added above
 
-
-
-        public IList<Auction> Auction { get;set; } = default!;
+        //public IList<Auction> Auction { get; set; } = default!;
 
         //SearchString bind property
         [BindProperty(SupportsGet = true)]
@@ -56,19 +54,17 @@ namespace shadowbase.Pages.Auctions
         public string? AuctionStatus { get; set; }
 
 
-        public async Task OnGetAsync(string sortOrder, string currentFilter, string searchString, int? pageIndex)
+        public async Task OnGetAsync(string sortOrder,
+        string currentFilter, string searchString, int? pageIndex)
         {
-            
-            
-            
-            // using System;
+            CurrentSort = sortOrder;
             AuctionSort = String.IsNullOrEmpty(sortOrder) ? "auction_desc" : "";
             StatusSort = sortOrder == "Status" ? "status_desc" : "Status";
             BudgetSort = sortOrder == "Budget" ? "budget_desc" : "Budget";
             TypeSort = sortOrder == "Type" ? "type_desc" : "Type";
-            ExpirySort = sortOrder =="Expiry" ? "expiry_desc" : "Expiry";
-            CreationSort = sortOrder =="Creation" ? "creation_desc" : "Creation";
-            
+            ExpirySort = sortOrder == "Expiry" ? "expiry_desc" : "Expiry";
+            CreationSort = sortOrder == "Creation" ? "creation_desc" : "Creation";
+
             if (searchString != null)
             {
                 pageIndex = 1;
@@ -78,20 +74,36 @@ namespace shadowbase.Pages.Auctions
                 searchString = currentFilter;
             }
 
+            CurrentFilter = searchString;
 
+            IQueryable<Auction> auctions = from a in _context.Auctions
+                                           select a;
 
-            // Use LINQ to get list of auction types.
-            // Query the database for all auction types
             IQueryable<string> auctionTypeQuery = from at in _context.AuctionTypes
-                                            orderby at.AuctionTypeDescription
-                                            select at.AuctionTypeDescription;
+                                                  orderby at.AuctionTypeDescription
+                                                  select at.AuctionTypeDescription;
+
             // Query the database for all auction statuses
             IQueryable<string> auctionStatusQuery = from ast in _context.AuctionStatuses
-                                            orderby ast.AuctionStatusDescription
-                                            select ast.AuctionStatusDescription;
-            // Auctions query
-            var auctions = from a in _context.Auctions
-                           select a;
+                                                    orderby ast.AuctionStatusDescription
+                                                    select ast.AuctionStatusDescription;
+
+            // Removed Mar 6
+            //var auctions = from a in _context.Auctions
+            //              select a;
+
+            // Filter by search string = auction ID
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                //int auctionID;
+                //if (int.TryParse(SearchString, out auctionID))
+                //{
+                //    auctions = auctions.Where(a => a.AuctionID == auctionID);
+                //}
+
+                auctions = auctions.Where(a => a.AuctionID.ToString().Contains(searchString));
+
+            }
             // Filter by auction type
             if (!string.IsNullOrEmpty(AuctionType))
             {
@@ -102,20 +114,11 @@ namespace shadowbase.Pages.Auctions
             {
                 auctions = auctions.Where(b => b.AuctionStatus.AuctionStatusDescription == AuctionStatus);
             }
-            // Filter by search string = auction ID
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                int auctionID;
-                if (int.TryParse(SearchString, out auctionID))
-                {
-                    auctions = auctions.Where(a => a.AuctionID == auctionID);
-                }
-            }
 
             // Set the select list dropdowns for auction types and statuses
             Types = new SelectList(await auctionTypeQuery.Distinct().ToListAsync());
             Statuses = new SelectList(await auctionStatusQuery.Distinct().ToListAsync());
- 
+
             // Feb 29 - Added Sort (Lab 7)
             switch (sortOrder)
             {
@@ -137,20 +140,28 @@ namespace shadowbase.Pages.Auctions
                 case "creation_desc":
                     auctions = auctions.OrderByDescending(a => a.CreationDate);
                     break;
+                default:
+                    auctions = auctions.OrderBy(a => a.AuctionID);
+                    break;
             }
 
-            Auction = await auctions
-                .Include(a => a.AuctionStatus)
-                .Include(a => a.AuctionType)
-                .Include(a => a.Client)
-                .Include(a => a.User)
-                .AsNoTracking()
-                .ToListAsync();
+            Console.WriteLine(auctions.ToQueryString());
+
+            //Auction = await auctions
+            //    .Include(a => a.AuctionStatus)
+            //    .Include(a => a.AuctionType)
+            //    .Include(a => a.Client)
+            //    .Include(a => a.User)
+            //    .AsNoTracking()
+            //    .ToListAsync();
 
             var pageSize = Configuration.GetValue("PageSize", 4);
             Auctions = await PaginatedList<Auction>.CreateAsync(
-                auctions.AsNoTracking(), pageIndex ?? 1, pageSize);
-
+            auctions.Include(a => a.AuctionStatus)
+            .Include(a => a.AuctionType)
+            .Include(a => a.Client)
+            .Include(a => a.User)
+            .AsNoTracking(), pageIndex ?? 1, pageSize);
         }
     }
 }

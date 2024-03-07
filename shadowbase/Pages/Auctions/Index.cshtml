@@ -15,13 +15,12 @@
 
 <form>
     <p>
-        Listing Type: <select asp-for="AuctionType" asp-items="Model.Types">
+       @*  Listing Type: <select name="AuctionTypeSelect" asp-for="AuctionType" asp-items="Model.Types">
             <option value="">All</option>
         </select>
-        Status: <select asp-for="AuctionStatus" asp-items="Model.Statuses">
+        Status: <select name="AuctionStatusSelect" asp-for="AuctionStatus" asp-items="Model.Statuses">
             <option value="">All</option>
-            
-        </select>     
+        </select>  *@    
         Auction ID: <input type="text" asp-for="SearchString" /> 
         <input type="submit" value="Search" class="btn btn-primary" />
     </p>
@@ -33,82 +32,82 @@
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.AuctionSort"
                     asp-route-currentFilter="@Model.CurrentFilter">
-                    @Html.DisplayNameFor(model => model.Auction[0].AuctionID)    
+                    @Html.DisplayNameFor(model => model.Auctions[0].AuctionID)    
                 </a>
             </th>
 
             @* <th>
-                @Html.DisplayNameFor(model => model.Auction[0].AuctionID)
+                @Html.DisplayNameFor(model => model.Auctions[0].AuctionID)
             </th> *@
 
             <th>
-                @Html.DisplayNameFor(model => model.Auction[0].User)
+                @Html.DisplayNameFor(model => model.Auctions[0].User)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Auction[0].Client)
+                @Html.DisplayNameFor(model => model.Auctions[0].Client)
             </th>
 
           @*   <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.StatusSort">
-                    @Html.DisplayNameFor(model => model.Auction[0].AuctionStatus.AuctionStatusDescription)
+                    @Html.DisplayNameFor(model => model.Auctions[0].AuctionStatus.AuctionStatusDescription)
                 </a>
             </th> *@
 
             <th>
-                @Html.DisplayNameFor(model => model.Auction[0].AuctionStatus)
+                @Html.DisplayNameFor(model => model.Auctions[0].AuctionStatus)
             </th>
 
            @*  <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.TypeSort">
-                    @Html.DisplayNameFor(model => model.Auction[0].AuctionType.AuctionTypeDescription)
+                    @Html.DisplayNameFor(model => model.Auctions[0].AuctionType.AuctionTypeDescription)
                 </a>
             </th> *@
 
             <th>
-                @Html.DisplayNameFor(model => model.Auction[0].AuctionType)
+                @Html.DisplayNameFor(model => model.Auctions[0].AuctionType)
             </th>
 
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.CreationSort"
                    asp-route-currentFilter="@Model.CurrentFilter">
-                    @Html.DisplayNameFor(model => model.Auction[0].CreationDate)
+                    @Html.DisplayNameFor(model => model.Auctions[0].CreationDate)
                 </a>
             </th>
 
             @* <th>
-                @Html.DisplayNameFor(model => model.Auction[0].CreationDate)
+                @Html.DisplayNameFor(model => model.Auctions[0].CreationDate)
             </th> *@
 
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.ExpirySort"
                    asp-route-currentFilter="@Model.CurrentFilter">
-                    @Html.DisplayNameFor(model => model.Auction[0].ExpiryDate)
+                    @Html.DisplayNameFor(model => model.Auctions[0].ExpiryDate)
                 </a>
             </th>
 
             @* <th>
-                @Html.DisplayNameFor(model => model.Auction[0].ExpiryDate)
+                @Html.DisplayNameFor(model => model.Auctions[0].ExpiryDate)
             </th> *@
 
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.BudgetSort"
                    asp-route-currentFilter="@Model.CurrentFilter">
-                    @Html.DisplayNameFor(model => model.Auction[0].HomeBudget)
+                    @Html.DisplayNameFor(model => model.Auctions[0].HomeBudget)
                 </a>
             </th>
             
            @*  <th>
-                @Html.DisplayNameFor(model => model.Auction[0].HomeBudget)
+                @Html.DisplayNameFor(model => model.Auctions[0].HomeBudget)
             </th> *@
 
             <th>
-                @Html.DisplayNameFor(model => model.Auction[0].BidLimit)
+                @Html.DisplayNameFor(model => model.Auctions[0].BidLimit)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Auction) {
+@foreach (var item in Model.Auctions) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.AuctionID)
