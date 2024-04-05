@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using shadowbase.Data;
 
@@ -11,9 +12,11 @@ using shadowbase.Data;
 namespace shadowbase.Migrations
 {
     [DbContext(typeof(ShadowbaseContext))]
-    partial class ShadowbaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240405185127_ColumnFirstNam")]
+    partial class ColumnFirstNam
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +65,7 @@ namespace shadowbase.Migrations
 
                     b.HasIndex("AdminID");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("shadowbase.Models.Admin", b =>

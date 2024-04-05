@@ -8,6 +8,7 @@ namespace shadowbase.Models
 
     public class Admin
 {
+        [Key]
         public int ID { get; set; }
 
         [Required]
