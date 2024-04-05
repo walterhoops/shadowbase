@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ContosoUniversity.Models;
 
 namespace shadowbase.Models;
 
 public class Auction
 {
     [Key,
-        Display(Name = "ID")]
+        Display(Name = "NUmber")]
 	public int AuctionID { get; set; }
     
     [ForeignKey("User"),
@@ -38,7 +39,8 @@ public class Auction
         Display(Name = "Expiry Date")]
 	public DateTime ExpiryDate { get; set; }
 
-	[DataType(DataType.Currency),
+    [Range(0, 5000000)]
+    [DataType(DataType.Currency),
         Display(Name = "Home Budget")]
 	public int HomeBudget { get; set; }
 
@@ -52,6 +54,9 @@ public class Auction
         Column(TypeName = "decimal(3, 2)"),
         Display(Name = "Bid Limit %")]
 	public decimal BidLimit { get; set; }
+    public int DepartmentID { get; set; }
+    public Department Department { get; set; }
+    public ICollection<Admin> Admin { get; set; }
 }
 // TODO: Feb. 28 - Connect clients to users. Users should be able to create clients.
 // Clients are the commodity that is traded on this platform, the currency is bidded % commission.

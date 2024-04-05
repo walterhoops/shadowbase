@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ContosoUniversity.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using shadowbase.Models;
@@ -24,6 +25,9 @@ namespace shadowbase.Data
         public DbSet<AuctionStatus> AuctionStatuses { get; set; }
         public DbSet<AuctionType> AuctionTypes { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<AdminAssignment> AdminAssignments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,6 +41,7 @@ namespace shadowbase.Data
             modelBuilder.Entity<AuctionType>().ToTable("AuctionType");
             modelBuilder.Entity<Bid>().ToTable("Bid");
             modelBuilder.Entity<UserType>().ToTable("UserType");
+            modelBuilder.Entity<Admin>().ToTable(nameof(Admin));
         }
     }
    
