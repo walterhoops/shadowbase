@@ -9,7 +9,7 @@ namespace shadowbase.Models
     public class Admin
 {
         [Key]
-        public int ID { get; set; }
+        public int AdminID { get; set; }
 
         [Required]
         [Display(Name = "Last Name")]

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ContosoUniversity.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using shadowbase.Models;
 using System;
@@ -40,10 +41,18 @@ namespace shadowbase.Data
             // Seed data for Bid table
             SeedBidData(context);
 
+            // Seed data for Bid table
+            SeedAdminData(context);
+
+            // Seed data for Bid table
+            SeedAdminAssignmentData(context);
+
+            // Seed data for Bid table
+            SeedDepartmentData(context);
 
             // Save changes to the database
             context.SaveChanges();
-        
+
         }
 
         private static void SeedUserType(ShadowbaseContext context)
@@ -326,8 +335,109 @@ namespace shadowbase.Data
 
             // Save changes to the database
             context.SaveChanges();
-        }
 
+
+
+        }
+        private static void SeedAdminData(ShadowbaseContext context)
+        {
+            var abercrombie = new Admin
+            {
+                AdminID = 1,
+                FirstMidName = "Kim",
+                LastName = "Abercrombie",
+            };
+
+            var fakhouri = new Admin
+            {
+                AdminID = 2,
+                FirstMidName = "Fadi",
+                LastName = "Fakhouri",
+                HireDate = DateTime.Parse("2002-07-06")
+            };
+
+            var harui = new Admin
+            {
+                AdminID = 3,
+                FirstMidName = "Roger",
+                LastName = "Harui",
+                HireDate = DateTime.Parse("1998-07-01")
+            };
+
+            var kapoor = new Admin
+            {
+                AdminID = 4,
+                FirstMidName = "Candace",
+                LastName = "Kapoor",
+                HireDate = DateTime.Parse("2001-01-15")
+            };
+
+            var zheng = new Admin
+            {
+                AdminID = 5,
+                FirstMidName = "Roger",
+                LastName = "Zheng",
+                HireDate = DateTime.Parse("2004-02-12")
+            };
+
+            var admins = new Admin[]
+            {
+                abercrombie,
+                fakhouri,
+                harui,
+                kapoor,
+                zheng
+            };
+            context.SaveChanges();
+            context.AddRange(admins);
+        }
+        private static void SeedAdminAssignmentData(ShadowbaseContext context)
+        {
+            var adminAssignments = new AdminAssignment[]
+            {
+                new AdminAssignment {
+                    AdminID = 4,//kapoor
+                    Location = "Smith 17" },
+                new AdminAssignment {
+                    AdminID = 3, //harui
+                    Location = "Gowan 27" },
+                new AdminAssignment {
+                    AdminID = 4, //kapoor
+                    Location = "Thompson 304" }
+            };
+            context.SaveChanges();
+            context.AddRange(adminAssignments);
+        }
+        private static void SeedDepartmentData(ShadowbaseContext context)
+        {
+            var tech = new Department
+            {
+                Name = "Tech",
+                Budget = 350000,
+                StartDate = DateTime.Parse("2007-09-01"),
+                AdminID = 1 //abercrombie
+            };
+
+            var humanresource = new Department
+            {
+                Name = "Human Resource",
+                Budget = 100000,
+                StartDate = DateTime.Parse("2007-09-01"),
+                AdminID = 2 //fakhouri
+            };
+
+
+            var departments = new Department[]
+            {
+                tech,
+                humanresource
+            };
+            context.SaveChanges();
+            context.AddRange(departments);
+
+
+        }
     }
-}
+    }
+    
 
