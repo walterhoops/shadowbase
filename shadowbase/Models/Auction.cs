@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace shadowbase.Models;
 
 public class Auction
 {
     [Key,
-        Display(Name = "ID")]
+        Display(Name = "Number")]
 	public int AuctionID { get; set; }
     
     [ForeignKey("User"),
@@ -38,11 +39,15 @@ public class Auction
         Display(Name = "Expiry Date")]
 	public DateTime ExpiryDate { get; set; }
 
-	[DataType(DataType.Currency),
+    [Range(0, 5000000)]
+    [DataType(DataType.Currency),
         Display(Name = "Home Budget")]
 	public int HomeBudget { get; set; }
 
     public ICollection<Bid>? Bids { get; set; }
+    public Department Department { get; set; }
+    
+    public ICollection<Instructor> Instructors { get; set; }
 
     //[ForeignKey("HighestBid")]
     //public int HighestBidIDFK { get; set; }

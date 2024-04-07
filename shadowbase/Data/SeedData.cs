@@ -39,11 +39,18 @@ namespace shadowbase.Data
 
             // Seed data for Bid table
             SeedBidData(context);
+            // Seed data for Instructor table
+            SeedInstructorData(context);
 
+            // Seed data for Instructor table
+            SeedInstructorData(context);
+
+            // Seed data for Department table
+            SeedDepartmentData(context);
 
             // Save changes to the database
             context.SaveChanges();
-        
+
         }
 
         private static void SeedUserType(ShadowbaseContext context)
@@ -327,7 +334,91 @@ namespace shadowbase.Data
             // Save changes to the database
             context.SaveChanges();
         }
+        private static void SeedInstructorData(ShadowbaseContext context)
+        {
+            if (context.Instructors.Any())
+            {
+                return;   // DB has been seeded
+            }
+            new Instructor
+            {
+                InstrutorID = 1, //abercrombie
+                FirstMidName = "Kim",
+                LastName = "Abercrombie",
+                HireDate = DateTime.Parse("1995-03-11")
+            };
 
+            new Instructor
+            {
+                InstrutorID = 2, //fakhouri
+                FirstMidName = "Fadi",
+                LastName = "Fakhouri",
+                HireDate = DateTime.Parse("2002-07-06")
+            };
+
+            new Instructor
+            {
+                InstrutorID = 3, //harui
+                FirstMidName = "Roger",
+                LastName = "Harui",
+                HireDate = DateTime.Parse("1998-07-01")
+            };
+
+            new Instructor
+            {
+                InstrutorID = 4,    //kapoor
+                FirstMidName = "Candace",
+                LastName = "Kapoor",
+                HireDate = DateTime.Parse("2001-01-15")
+            };
+
+            new Instructor
+            {
+                InstrutorID = 5, //Zheng
+                FirstMidName = "Roger",
+                LastName = "Zheng",
+                HireDate = DateTime.Parse("2004-02-12")
+            };
+
+            // Save changes to the database
+            context.SaveChanges();
+
+        }
+        private static void SeedDepartmentData(ShadowbaseContext context)
+        {
+            if (context.Instructors.Any())
+            {
+                return;   // DB has been seeded
+            }
+            new Department
+            {
+                Name = "English",
+                Budget = 350000,
+                StartDate = DateTime.Parse("2007-09-01")
+            };
+
+            new Department
+            {
+                Name = "Mathematics",
+                Budget = 100000,
+                StartDate = DateTime.Parse("2007-09-01")
+            };
+
+            new Department
+            {
+                Name = "Engineering",
+                Budget = 350000,
+                StartDate = DateTime.Parse("2007-09-01")
+            };
+
+            new Department
+            {
+                Name = "Economics",
+                Budget = 100000,
+                StartDate = DateTime.Parse("2007-09-01")
+            };
+        }
     }
 }
+
 

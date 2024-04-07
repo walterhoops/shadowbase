@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace shadowbase.Migrations
 {
     /// <inheritdoc />
-    public partial class _27feb1 : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,7 @@ namespace shadowbase.Migrations
                 columns: table => new
                 {
                     AuctionStatusID = table.Column<int>(type: "int", nullable: false),
-                    AuctionStatusDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AuctionStatusDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,7 +28,7 @@ namespace shadowbase.Migrations
                 columns: table => new
                 {
                     AuctionTypeID = table.Column<int>(type: "int", nullable: false),
-                    AuctionTypeDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AuctionTypeDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,14 +41,29 @@ namespace shadowbase.Migrations
                 {
                     ClientID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(name: "First Name", type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Client", x => x.ClientID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Instructor",
+                columns: table => new
+                {
+                    InstrutorID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FirstName = table.Column<string>(name: "First Name", type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Instructor", x => x.InstrutorID);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,26 +79,67 @@ namespace shadowbase.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    DepartmentID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Budget = table.Column<decimal>(type: "money", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    InstructorID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.DepartmentID);
+                    table.ForeignKey(
+                        name: "FK_Departments_Instructor_InstructorID",
+                        column: x => x.InstructorID,
+                        principalTable: "Instructor",
+                        principalColumn: "InstrutorID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OfficeAssignments",
+                columns: table => new
+                {
+                    InstructorID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Location = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    InstructorInstrutorID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OfficeAssignments", x => x.InstructorID);
+                    table.ForeignKey(
+                        name: "FK_OfficeAssignments_Instructor_InstructorInstrutorID",
+                        column: x => x.InstructorInstrutorID,
+                        principalTable: "Instructor",
+                        principalColumn: "InstrutorID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
                     UserID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserTypeIDFK = table.Column<int>(type: "int", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     DOB = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PayPalEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LicenseID = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    LicenseID = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -109,7 +165,8 @@ namespace shadowbase.Migrations
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HomeBudget = table.Column<int>(type: "int", nullable: false),
-                    BidLimit = table.Column<decimal>(type: "decimal(3,2)", nullable: false)
+                    BidLimit = table.Column<decimal>(type: "decimal(3,2)", nullable: false),
+                    DepartmentID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -133,10 +190,39 @@ namespace shadowbase.Migrations
                         principalColumn: "ClientID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Auction_Departments_DepartmentID",
+                        column: x => x.DepartmentID,
+                        principalTable: "Departments",
+                        principalColumn: "DepartmentID");
+                    table.ForeignKey(
                         name: "FK_Auction_User_UserIDFK",
                         column: x => x.UserIDFK,
                         principalTable: "User",
                         principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AuctionInstructor",
+                columns: table => new
+                {
+                    AuctionsAuctionID = table.Column<int>(type: "int", nullable: false),
+                    InstructorsInstrutorID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuctionInstructor", x => new { x.AuctionsAuctionID, x.InstructorsInstrutorID });
+                    table.ForeignKey(
+                        name: "FK_AuctionInstructor_Auction_AuctionsAuctionID",
+                        column: x => x.AuctionsAuctionID,
+                        principalTable: "Auction",
+                        principalColumn: "AuctionID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AuctionInstructor_Instructor_InstructorsInstrutorID",
+                        column: x => x.InstructorsInstrutorID,
+                        principalTable: "Instructor",
+                        principalColumn: "InstrutorID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -148,7 +234,7 @@ namespace shadowbase.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AuctionIDFK = table.Column<int>(type: "int", nullable: false),
                     UserIDFK = table.Column<int>(type: "int", nullable: true),
-                    BidAmount = table.Column<decimal>(type: "decimal(2,2)", nullable: false),
+                    BidAmount = table.Column<decimal>(type: "decimal(3,2)", nullable: false),
                     BidDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -183,9 +269,19 @@ namespace shadowbase.Migrations
                 column: "ClientIDFK");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Auction_DepartmentID",
+                table: "Auction",
+                column: "DepartmentID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Auction_UserIDFK",
                 table: "Auction",
                 column: "UserIDFK");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AuctionInstructor_InstructorsInstrutorID",
+                table: "AuctionInstructor",
+                column: "InstructorsInstrutorID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bid_AuctionIDFK",
@@ -198,6 +294,16 @@ namespace shadowbase.Migrations
                 column: "UserIDFK");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Departments_InstructorID",
+                table: "Departments",
+                column: "InstructorID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OfficeAssignments_InstructorInstrutorID",
+                table: "OfficeAssignments",
+                column: "InstructorInstrutorID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_User_UserTypeIDFK",
                 table: "User",
                 column: "UserTypeIDFK");
@@ -207,7 +313,13 @@ namespace shadowbase.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AuctionInstructor");
+
+            migrationBuilder.DropTable(
                 name: "Bid");
+
+            migrationBuilder.DropTable(
+                name: "OfficeAssignments");
 
             migrationBuilder.DropTable(
                 name: "Auction");
@@ -222,7 +334,13 @@ namespace shadowbase.Migrations
                 name: "Client");
 
             migrationBuilder.DropTable(
+                name: "Departments");
+
+            migrationBuilder.DropTable(
                 name: "User");
+
+            migrationBuilder.DropTable(
+                name: "Instructor");
 
             migrationBuilder.DropTable(
                 name: "UserType");

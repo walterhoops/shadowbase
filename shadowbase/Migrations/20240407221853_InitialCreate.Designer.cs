@@ -12,8 +12,8 @@ using shadowbase.Data;
 namespace shadowbase.Migrations
 {
     [DbContext(typeof(ShadowbaseContext))]
-    [Migration("20240228014222_27feb1")]
-    partial class _27feb1
+    [Migration("20240407221853_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace shadowbase.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AuctionInstructor", b =>
+                {
+                    b.Property<int>("AuctionsAuctionID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InstructorsInstrutorID")
+                        .HasColumnType("int");
+
+                    b.HasKey("AuctionsAuctionID", "InstructorsInstrutorID");
+
+                    b.HasIndex("InstructorsInstrutorID");
+
+                    b.ToTable("AuctionInstructor");
+                });
 
             modelBuilder.Entity("shadowbase.Models.Auction", b =>
                 {
@@ -48,6 +63,9 @@ namespace shadowbase.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DepartmentID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
 
@@ -65,6 +83,8 @@ namespace shadowbase.Migrations
 
                     b.HasIndex("ClientIDFK");
 
+                    b.HasIndex("DepartmentID");
+
                     b.HasIndex("UserIDFK");
 
                     b.ToTable("Auction", (string)null);
@@ -77,7 +97,8 @@ namespace shadowbase.Migrations
 
                     b.Property<string>("AuctionStatusDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("AuctionStatusID");
 
@@ -91,7 +112,8 @@ namespace shadowbase.Migrations
 
                     b.Property<string>("AuctionTypeDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("AuctionTypeID");
 
@@ -110,7 +132,7 @@ namespace shadowbase.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("BidAmount")
-                        .HasColumnType("decimal(2, 2)");
+                        .HasColumnType("decimal(3, 2)");
 
                     b.Property<DateTime>("BidDate")
                         .HasColumnType("datetime2");
@@ -141,11 +163,14 @@ namespace shadowbase.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("First Name");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -154,6 +179,83 @@ namespace shadowbase.Migrations
                     b.HasKey("ClientID");
 
                     b.ToTable("Client", (string)null);
+                });
+
+            modelBuilder.Entity("shadowbase.Models.Department", b =>
+                {
+                    b.Property<int>("DepartmentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentID"));
+
+                    b.Property<decimal>("Budget")
+                        .HasColumnType("money");
+
+                    b.Property<int?>("InstructorID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("DepartmentID");
+
+                    b.HasIndex("InstructorID");
+
+                    b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("shadowbase.Models.Instructor", b =>
+                {
+                    b.Property<int>("InstrutorID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InstrutorID"));
+
+                    b.Property<string>("FirstMidName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("First Name");
+
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("InstrutorID");
+
+                    b.ToTable("Instructor", (string)null);
+                });
+
+            modelBuilder.Entity("shadowbase.Models.OfficeAssignment", b =>
+                {
+                    b.Property<int>("InstructorID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InstructorID"));
+
+                    b.Property<int>("InstructorInstrutorID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("InstructorID");
+
+                    b.HasIndex("InstructorInstrutorID");
+
+                    b.ToTable("OfficeAssignments");
                 });
 
             modelBuilder.Entity("shadowbase.Models.User", b =>
@@ -170,15 +272,18 @@ namespace shadowbase.Migrations
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Company")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Country")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime2");
@@ -189,19 +294,23 @@ namespace shadowbase.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("LicenseID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("PayPalEmail")
                         .IsRequired()
@@ -220,7 +329,8 @@ namespace shadowbase.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("UserID");
 
@@ -243,6 +353,21 @@ namespace shadowbase.Migrations
                     b.ToTable("UserType", (string)null);
                 });
 
+            modelBuilder.Entity("AuctionInstructor", b =>
+                {
+                    b.HasOne("shadowbase.Models.Auction", null)
+                        .WithMany()
+                        .HasForeignKey("AuctionsAuctionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("shadowbase.Models.Instructor", null)
+                        .WithMany()
+                        .HasForeignKey("InstructorsInstrutorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("shadowbase.Models.Auction", b =>
                 {
                     b.HasOne("shadowbase.Models.AuctionStatus", "AuctionStatus")
@@ -262,6 +387,10 @@ namespace shadowbase.Migrations
                         .HasForeignKey("ClientIDFK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("shadowbase.Models.Department", null)
+                        .WithMany("Auctions")
+                        .HasForeignKey("DepartmentID");
 
                     b.HasOne("shadowbase.Models.User", "User")
                         .WithMany("Auctions")
@@ -295,6 +424,26 @@ namespace shadowbase.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("shadowbase.Models.Department", b =>
+                {
+                    b.HasOne("shadowbase.Models.Instructor", "Administrator")
+                        .WithMany()
+                        .HasForeignKey("InstructorID");
+
+                    b.Navigation("Administrator");
+                });
+
+            modelBuilder.Entity("shadowbase.Models.OfficeAssignment", b =>
+                {
+                    b.HasOne("shadowbase.Models.Instructor", "Instructor")
+                        .WithMany("OfficeAssignment")
+                        .HasForeignKey("InstructorInstrutorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Instructor");
+                });
+
             modelBuilder.Entity("shadowbase.Models.User", b =>
                 {
                     b.HasOne("shadowbase.Models.UserType", "UserType")
@@ -324,6 +473,16 @@ namespace shadowbase.Migrations
             modelBuilder.Entity("shadowbase.Models.Client", b =>
                 {
                     b.Navigation("Auctions");
+                });
+
+            modelBuilder.Entity("shadowbase.Models.Department", b =>
+                {
+                    b.Navigation("Auctions");
+                });
+
+            modelBuilder.Entity("shadowbase.Models.Instructor", b =>
+                {
+                    b.Navigation("OfficeAssignment");
                 });
 
             modelBuilder.Entity("shadowbase.Models.User", b =>

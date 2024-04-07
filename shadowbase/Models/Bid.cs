@@ -14,6 +14,7 @@ namespace shadowbase.Models
     public int AuctionIDFK { get; set; }
     public Auction Auction { get; set; }
 
+    [DisplayFormat(NullDisplayText = "No grade")]
     [ForeignKey("User")]
     public int? UserIDFK { get; set; } 
     public User? User { get; set; }
