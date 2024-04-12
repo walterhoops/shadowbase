@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using shadowbase.Models;
 using System;
 using System.Linq;
+using System.Reflection.Metadata;
 
 namespace shadowbase.Data
 {
@@ -39,14 +40,7 @@ namespace shadowbase.Data
 
             // Seed data for Bid table
             SeedBidData(context);
-            // Seed data for Instructor table
-            SeedInstructorData(context);
-
-            // Seed data for Instructor table
-            SeedInstructorData(context);
-
-            // Seed data for Department table
-            SeedDepartmentData(context);
+            
 
             // Save changes to the database
             context.SaveChanges();
@@ -175,6 +169,20 @@ namespace shadowbase.Data
                     LastName = "Tang",
                     Email = "T.Thanya@my.bcit.ca",
                     Phone = "1234560003"
+                },
+                new Client
+                {
+                    FirstName = "Jacky",
+                    LastName = "Tang",
+                    Email = "j.Thanya@my.bcit.ca",
+                    Phone = "1234560004"
+                },
+                new Client
+                {
+                    FirstName = "Benny",
+                    LastName = "Tang",
+                    Email = "B.Thanya@my.bcit.ca",
+                    Phone = "1234560005"
                 }
             );
 
@@ -243,7 +251,62 @@ namespace shadowbase.Data
                     Company = "Excellent Insurance Co.",
                     PayPalEmail = "sally.insurance@insurance.ca",
                     LicenseID = "345678",
+                },
+                new User
+                {
+                    UserTypeIDFK = 0, //realtor
+                    Username = "BOBsmith",
+                    FirstName = "Bob",
+                    LastName = "Smith",
+                    Email = "bob.realtor@ayd.ca",
+                    Password = "password",
+                    DOB = DateTime.Parse("1995-12-21"),
+                    Phone = "3895023284",
+                    Address = "4028 Oak Ave",
+                    City = "Vancouver",
+                    PostalCode = "V2T 8G2",
+                    Country = "Canada",
+                    Company = "Excellent Realtor Co.",
+                    PayPalEmail = "bob.realtor@ayd.ca",
+                    LicenseID = "341868",
+                },
+                new User
+                {
+                    UserTypeIDFK = 1, //mortgage
+                    Username = "kimtam",
+                    FirstName = "Kim",
+                    LastName = "Abercrombie",
+                    Email = "kim.abercrombie@insurance.ca",
+                    Password = "password",
+                    DOB = DateTime.Parse("1995-12-21"),
+                    Phone = "3895038284",
+                    Address = "4028 Oak St",
+                    City = "Vancouver",
+                    PostalCode = "V2T 8G2",
+                    Country = "Canada",
+                    Company = "Excellent Insurance Co.",
+                    PayPalEmail = "kim.abercrombie@insurance.ca",
+                    LicenseID = "341358",
+                },
+                new User
+                {
+                    UserTypeIDFK = 1, //mortgage
+                    Username = "Timtam",
+                    FirstName = "Tim",
+                    LastName = "Tam",
+                    Email = "kim.tam@mortgage.ca",
+                    Password = "password",
+                    DOB = DateTime.Parse("1995-12-21"),
+                    Phone = "3895038284",
+                    Address = "4028 Knight St",
+                    City = "Vancouver",
+                    PostalCode = "V2T 8G2",
+                    Country = "Canada",
+                    Company = "Excellent Mortgage Co.",
+                    PayPalEmail = "kim.tam@mortgage.ca",
+                    LicenseID = "305358",
                 }
+
             );
 
             // Save changes to the database
@@ -292,7 +355,7 @@ namespace shadowbase.Data
                     ExpiryDate = DateTime.Today,
                     //HighestBidIDFK = 2,
                     HomeBudget = 1000000,
-                    BidLimit = 0.10m // Adjusted to decimal type
+                    BidLimit = 0.70m // Adjusted to decimal type
                 }
             );
 
@@ -334,90 +397,8 @@ namespace shadowbase.Data
             // Save changes to the database
             context.SaveChanges();
         }
-        private static void SeedInstructorData(ShadowbaseContext context)
-        {
-            if (context.Instructors.Any())
-            {
-                return;   // DB has been seeded
-            }
-            new Instructor
-            {
-                InstrutorID = 1, //abercrombie
-                FirstMidName = "Kim",
-                LastName = "Abercrombie",
-                HireDate = DateTime.Parse("1995-03-11")
-            };
-
-            new Instructor
-            {
-                InstrutorID = 2, //fakhouri
-                FirstMidName = "Fadi",
-                LastName = "Fakhouri",
-                HireDate = DateTime.Parse("2002-07-06")
-            };
-
-            new Instructor
-            {
-                InstrutorID = 3, //harui
-                FirstMidName = "Roger",
-                LastName = "Harui",
-                HireDate = DateTime.Parse("1998-07-01")
-            };
-
-            new Instructor
-            {
-                InstrutorID = 4,    //kapoor
-                FirstMidName = "Candace",
-                LastName = "Kapoor",
-                HireDate = DateTime.Parse("2001-01-15")
-            };
-
-            new Instructor
-            {
-                InstrutorID = 5, //Zheng
-                FirstMidName = "Roger",
-                LastName = "Zheng",
-                HireDate = DateTime.Parse("2004-02-12")
-            };
-
-            // Save changes to the database
-            context.SaveChanges();
-
-        }
-        private static void SeedDepartmentData(ShadowbaseContext context)
-        {
-            if (context.Instructors.Any())
-            {
-                return;   // DB has been seeded
-            }
-            new Department
-            {
-                Name = "English",
-                Budget = 350000,
-                StartDate = DateTime.Parse("2007-09-01")
-            };
-
-            new Department
-            {
-                Name = "Mathematics",
-                Budget = 100000,
-                StartDate = DateTime.Parse("2007-09-01")
-            };
-
-            new Department
-            {
-                Name = "Engineering",
-                Budget = 350000,
-                StartDate = DateTime.Parse("2007-09-01")
-            };
-
-            new Department
-            {
-                Name = "Economics",
-                Budget = 100000,
-                StartDate = DateTime.Parse("2007-09-01")
-            };
-        }
+        
+        
     }
 }
 

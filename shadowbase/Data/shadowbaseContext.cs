@@ -24,10 +24,7 @@ namespace shadowbase.Data
         public DbSet<AuctionStatus> AuctionStatuses { get; set; }
         public DbSet<AuctionType> AuctionTypes { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
-        public DbSet<Department> Departments { get; set; }
-
-        public DbSet<Instructor> Instructors { get; set; }
-        public DbSet<OfficeAssignment> OfficeAssignments { get; set; }
+        
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,15 +33,16 @@ namespace shadowbase.Data
             // Above added Feb 28, if this breaks anything, remove it? - Walter
             modelBuilder.Entity<Client>().ToTable("Client");
             modelBuilder.Entity<Auction>().ToTable("Auction");
-            modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<AuctionStatus>().ToTable("AuctionStatus");
             modelBuilder.Entity<AuctionType>().ToTable("AuctionType");
             modelBuilder.Entity<Bid>().ToTable("Bid");
             modelBuilder.Entity<UserType>().ToTable("UserType");
-            modelBuilder.Entity<Auction>().ToTable(nameof(Auction))
-                .HasMany(c => c.Instructors)
-                .WithMany(i => i.Auctions);
-            modelBuilder.Entity<Instructor>().ToTable(nameof(Instructor));
+            
+            //modelBuilder.Entity<User>().ToTable("User");
+            
+            // Test Apr 12
+            modelBuilder.Entity<User>().ToTable(nameof(User))
+                .HasMany(c => c.Auctions);
 
 
         }

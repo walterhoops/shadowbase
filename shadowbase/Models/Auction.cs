@@ -7,9 +7,9 @@ namespace shadowbase.Models;
 public class Auction
 {
     [Key,
-        Display(Name = "Number")]
-	public int AuctionID { get; set; }
-    
+        Display(Name = "Auction Number")]
+    public int AuctionID { get; set; }
+
     [ForeignKey("User"),
         Display(Name = "User ID")]
     public int UserIDFK { get; set; }
@@ -21,10 +21,10 @@ public class Auction
     public Client Client { get; set; }
 
     [ForeignKey("AuctionStatus")]
-	public int AuctionStatusIDFK { get; set; }
+    public int AuctionStatusIDFK { get; set; }
     [Display(Name = "Status")]
     public AuctionStatus AuctionStatus { get; set; }
-  
+
     [ForeignKey("AuctionType")]
     public int AuctionTypeIDFK { get; set; }
     [Display(Name = "Listing Type")]
@@ -32,10 +32,12 @@ public class Auction
 
 
     [DataType(DataType.Date),
+        DisplayFormat(DataFormatString ="{0:yyyy - MM - dd}",ApplyFormatInEditMode = true),
         Display(Name = "Creation Date")]
     public DateTime CreationDate { get; set; }
 
 	[DataType(DataType.Date),
+        DisplayFormat(DataFormatString = "{0:yyyy - MM - dd}", ApplyFormatInEditMode = true),
         Display(Name = "Expiry Date")]
 	public DateTime ExpiryDate { get; set; }
 
@@ -45,9 +47,8 @@ public class Auction
 	public int HomeBudget { get; set; }
 
     public ICollection<Bid>? Bids { get; set; }
-    public Department Department { get; set; }
-    
-    public ICollection<Instructor> Instructors { get; set; }
+
+ 
 
     //[ForeignKey("HighestBid")]
     //public int HighestBidIDFK { get; set; }

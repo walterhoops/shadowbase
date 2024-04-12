@@ -35,6 +35,7 @@ public class User
 
     [Required]
     [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy - MM - dd}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date of Birth")]
     public DateTime DOB { get; set; }
 
