@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace shadowbase.Models;
 public class Client
 {
@@ -6,12 +7,13 @@ public class Client
     [Key]
     public int ClientID { get; set; }
 
-    [StringLength(30, MinimumLength = 1)]
+    [StringLength(50, MinimumLength = 1, ErrorMessage = "First name cannot be longer than 50 characters.")]
     [Required]
+    [Column("First Name")]
     [Display(Name = "First Name")]
     public string FirstName { get; set; }
 
-    [StringLength(30, MinimumLength = 1)]
+    [StringLength(50, MinimumLength = 1)]
     [Required]
     [Display(Name = "Last Name")]
     public string LastName { get; set; }
@@ -24,6 +26,13 @@ public class Client
     [DataType(DataType.PhoneNumber)]
     public string Phone { get; set; }
 
+    public string FullName
+    {
+        get
+        {
+            return LastName + ", " + FirstName;
+        }
+    }
     public ICollection<Auction> Auctions { get; set; }
 }
 // TODO: Feb. 28 - Connect clients to users. Users should be able to create clients.

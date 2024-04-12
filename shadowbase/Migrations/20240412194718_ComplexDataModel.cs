@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace shadowbase.Migrations
 {
     /// <inheritdoc />
-    public partial class _27feb1 : Migration
+    public partial class ComplexDataModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,7 @@ namespace shadowbase.Migrations
                 columns: table => new
                 {
                     AuctionStatusID = table.Column<int>(type: "int", nullable: false),
-                    AuctionStatusDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AuctionStatusDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,7 +28,7 @@ namespace shadowbase.Migrations
                 columns: table => new
                 {
                     AuctionTypeID = table.Column<int>(type: "int", nullable: false),
-                    AuctionTypeDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AuctionTypeDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,8 +41,8 @@ namespace shadowbase.Migrations
                 {
                     ClientID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(name: "First Name", type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -70,20 +70,20 @@ namespace shadowbase.Migrations
                     UserID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserTypeIDFK = table.Column<int>(type: "int", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     DOB = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PayPalEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LicenseID = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    LicenseID = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -148,7 +148,7 @@ namespace shadowbase.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AuctionIDFK = table.Column<int>(type: "int", nullable: false),
                     UserIDFK = table.Column<int>(type: "int", nullable: true),
-                    BidAmount = table.Column<decimal>(type: "decimal(2,2)", nullable: false),
+                    BidAmount = table.Column<decimal>(type: "decimal(3,2)", nullable: false),
                     BidDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

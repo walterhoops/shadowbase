@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using shadowbase.Models;
 using System;
 using System.Linq;
+using System.Reflection.Metadata;
 
 namespace shadowbase.Data
 {
@@ -39,11 +40,11 @@ namespace shadowbase.Data
 
             // Seed data for Bid table
             SeedBidData(context);
-
+            
 
             // Save changes to the database
             context.SaveChanges();
-        
+
         }
 
         private static void SeedUserType(ShadowbaseContext context)
@@ -168,6 +169,20 @@ namespace shadowbase.Data
                     LastName = "Tang",
                     Email = "T.Thanya@my.bcit.ca",
                     Phone = "1234560003"
+                },
+                new Client
+                {
+                    FirstName = "Jacky",
+                    LastName = "Tang",
+                    Email = "j.Thanya@my.bcit.ca",
+                    Phone = "1234560004"
+                },
+                new Client
+                {
+                    FirstName = "Benny",
+                    LastName = "Tang",
+                    Email = "B.Thanya@my.bcit.ca",
+                    Phone = "1234560005"
                 }
             );
 
@@ -236,7 +251,62 @@ namespace shadowbase.Data
                     Company = "Excellent Insurance Co.",
                     PayPalEmail = "sally.insurance@insurance.ca",
                     LicenseID = "345678",
+                },
+                new User
+                {
+                    UserTypeIDFK = 0, //realtor
+                    Username = "BOBsmith",
+                    FirstName = "Bob",
+                    LastName = "Smith",
+                    Email = "bob.realtor@ayd.ca",
+                    Password = "password",
+                    DOB = DateTime.Parse("1995-12-21"),
+                    Phone = "3895023284",
+                    Address = "4028 Oak Ave",
+                    City = "Vancouver",
+                    PostalCode = "V2T 8G2",
+                    Country = "Canada",
+                    Company = "Excellent Realtor Co.",
+                    PayPalEmail = "bob.realtor@ayd.ca",
+                    LicenseID = "341868",
+                },
+                new User
+                {
+                    UserTypeIDFK = 1, //mortgage
+                    Username = "kimtam",
+                    FirstName = "Kim",
+                    LastName = "Abercrombie",
+                    Email = "kim.abercrombie@insurance.ca",
+                    Password = "password",
+                    DOB = DateTime.Parse("1995-12-21"),
+                    Phone = "3895038284",
+                    Address = "4028 Oak St",
+                    City = "Vancouver",
+                    PostalCode = "V2T 8G2",
+                    Country = "Canada",
+                    Company = "Excellent Insurance Co.",
+                    PayPalEmail = "kim.abercrombie@insurance.ca",
+                    LicenseID = "341358",
+                },
+                new User
+                {
+                    UserTypeIDFK = 1, //mortgage
+                    Username = "Timtam",
+                    FirstName = "Tim",
+                    LastName = "Tam",
+                    Email = "kim.tam@mortgage.ca",
+                    Password = "password",
+                    DOB = DateTime.Parse("1995-12-21"),
+                    Phone = "3895038284",
+                    Address = "4028 Knight St",
+                    City = "Vancouver",
+                    PostalCode = "V2T 8G2",
+                    Country = "Canada",
+                    Company = "Excellent Mortgage Co.",
+                    PayPalEmail = "kim.tam@mortgage.ca",
+                    LicenseID = "305358",
                 }
+
             );
 
             // Save changes to the database
@@ -285,7 +355,7 @@ namespace shadowbase.Data
                     ExpiryDate = DateTime.Today,
                     //HighestBidIDFK = 2,
                     HomeBudget = 1000000,
-                    BidLimit = 0.10m // Adjusted to decimal type
+                    BidLimit = 0.70m // Adjusted to decimal type
                 }
             );
 
@@ -327,7 +397,9 @@ namespace shadowbase.Data
             // Save changes to the database
             context.SaveChanges();
         }
-
+        
+        
     }
 }
+
 
