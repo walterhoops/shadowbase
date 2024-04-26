@@ -46,10 +46,6 @@ public class Auction
         Display(Name = "Home Budget")]
 	public int HomeBudget { get; set; }
 
-    public ICollection<Bid>? Bids { get; set; }
-
- 
-
     //[ForeignKey("HighestBid")]
     //public int HighestBidIDFK { get; set; }
     //public Bid HighestBid { get; set; }
@@ -58,6 +54,9 @@ public class Auction
         Column(TypeName = "decimal(3, 2)"),
         Display(Name = "Bid Limit %")]
 	public decimal BidLimit { get; set; }
+
+    public ICollection<Bid>? Bids { get; set; }
+    public ICollection<User> Users { get; set; }
 }
 // TODO: Feb. 28 - Connect clients to users. Users should be able to create clients.
 // Clients are the commodity that is traded on this platform, the currency is bidded % commission.
