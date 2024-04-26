@@ -2,10 +2,10 @@
 @model shadowbase.Pages.Bids.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Bids";
 }
 
-<h1>Index</h1>
+<h1>Bids</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -29,26 +29,28 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Bid) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Auction.AuctionID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BidAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BidDate)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.BidID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.BidID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.BidID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Bid) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Auction.AuctionID)
+                    </td>
+                        
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BidAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BidDate)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.BidID">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.BidID">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.BidID">Delete</a>
+                    </td>
+                </tr>
+        }
     </tbody>
 </table>
+

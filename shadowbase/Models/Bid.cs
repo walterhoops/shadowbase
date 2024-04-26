@@ -28,5 +28,7 @@ namespace shadowbase.Models
     [Required]
     [DataType(DataType.Date)]
     public DateTime BidDate { get; set; }
+
+    public ICollection<User> Users { get; set; }
   }
 }
