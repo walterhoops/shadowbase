@@ -25,7 +25,7 @@ namespace shadowbase.Pages.Clients
         {
             if (_context.Clients != null)
             {
-                Client = await _context.Clients.ToListAsync();
+                //Client = await _context.Clients.ToListAsync();
             }
         }
     }

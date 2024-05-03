@@ -159,7 +159,7 @@ namespace shadowbase.Pages.Auctions
             Auctions = await PaginatedList<Auction>.CreateAsync(
             auctions.Include(a => a.AuctionStatus)
             .Include(a => a.AuctionType)
-            .Include(a => a.Client)
+            //.Include(a => a.Client)
             .Include(a => a.User)
             .AsNoTracking(), pageIndex ?? 1, pageSize);
         }
