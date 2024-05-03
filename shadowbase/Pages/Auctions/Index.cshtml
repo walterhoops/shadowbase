@@ -43,9 +43,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Auctions[0].User)
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.Auctions[0].Client)
-            </th>
+            </th> *@
 
           @*   <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.StatusSort">
@@ -115,9 +115,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.User.Username)
             </td>
-            <td>
+            @* <td>
                 @Html.DisplayFor(modelItem => item.Client.FirstName)
-            </td>
+            </td> *@
             <td>
                 @Html.DisplayFor(modelItem => item.AuctionStatus.AuctionStatusDescription)
             </td>
