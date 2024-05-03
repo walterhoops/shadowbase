@@ -2,10 +2,10 @@
 @model shadowbase.Pages.Users.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Users";
 }
 
-<h1>Index</h1>
+<h1>Users</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -14,55 +14,55 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].UserType)
+                User Type
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Username)
+                Username
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Password)
+                Password
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].FirstName)
+                First Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].LastName)
+                Last Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].DOB)
+                Date of Birth
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Phone)
+                Phone
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Email)
+                Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Address)
+                Address
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].City)
+                City
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].PostalCode)
+                Postal Code
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Country)
+                Country
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Company)
+                Company
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].PayPalEmail)
+                PayPal Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].LicenseID)
+                LicenceID
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.User) {
+@foreach (var item in Model.UserData.Users) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.UserType.UserTypeDescription)
@@ -110,6 +110,7 @@
                 @Html.DisplayFor(modelItem => item.LicenseID)
             </td>
             <td>
+                <a asp-page="./Index" asp-route-id="@item.UserID">Select</a> |
                 <a asp-page="./Edit" asp-route-id="@item.UserID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.UserID">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.UserID">Delete</a>
@@ -118,3 +119,40 @@
 }
     </tbody>
 </table>
+
+@if (Model.UserData.Bids != null)
+{
+    <h3>Bids made by Selected User</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Auction ID</th>
+            <th>Bid Amount</th>
+            <th>Bid Date</th>
+        </tr>
+
+        @foreach (var item in Model.UserData.Bids)
+        {
+            string selectedRow = "";
+            if (item.BidID == Model.BidID)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    
+                </td>
+                <td>
+                    @item.BidID
+                </td>
+                <td>
+                    @item.BidAmount
+                </td>
+                <td>
+                    @item.BidDate
+                </td>
+            </tr>
+        }
+
+    </table>
+}
